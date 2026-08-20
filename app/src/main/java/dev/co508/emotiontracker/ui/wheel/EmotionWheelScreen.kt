@@ -53,7 +53,12 @@ fun EmotionWheelScreen(
                         Text(stringResource(R.string.wheel_back))
                     }
                 }
-                if (current.isLeaf) {
+                // Visible at any level once at least one choice has been made
+                // (not at the root, before Positive/Negative) — you can save
+                // an intermediate level like "Positive" without drilling all
+                // the way down. The wheel's own center disk still only reads
+                // "Save" once a level has bottomed out (see EmotionWheel).
+                if (path.size > 1) {
                     TextButton(onClick = viewModel::save) {
                         Text(stringResource(R.string.wheel_save))
                     }

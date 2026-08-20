@@ -37,12 +37,19 @@ class EmotionWheelViewModel(
         _path.update { if (it.size > 1) it.dropLast(1) else it }
     }
 
+    /**
+     * Records whatever level is currently on screen — not just a bottomed-out
+     * leaf. Someone might only want to record "Positive" or "Calm" without
+     * picking further; the wheel's center disk still only offers a bare
+     * "Save" circle once a level has no children (see [EmotionWheel]), but
+     * this explicit action works at any depth past the root.
+     */
     fun save() {
-        val leaf = _path.value.last()
-        if (!leaf.isLeaf) return
+        val current = _path.value.last()
+        if (current == root) return
         viewModelScope.launch {
-            repository.recordEmotion(leaf.id)
-            savedEvents.send(leaf.label)
+            repository.recordEmotion(current.id)
+            savedEvents.send(current.label)
             _path.value = listOf(root)
         }
     }
