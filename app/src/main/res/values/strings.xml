@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Emotion Tracker</string>
+
+    <!-- Navigation drawer -->
+    <string name="nav_menu_content_description">Open menu</string>
+    <string name="nav_wheel">Emotion wheel</string>
+    <string name="nav_journal">Journal</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Emotion wheel. The current-level title text comes from the emotion
+         tree itself (app/src/main/assets/emotion_tree.json), not a string
+         resource, so the root's own prompt ("How are you feeling?") lives
+         there as the tree root's label — single source of truth. -->
+    <string name="wheel_back">Back</string>
+    <string name="wheel_save">Save</string>
+    <string name="wheel_saved_toast">Saved %1$s</string>
+
+    <!-- Journal -->
+    <string name="journal_empty_title">No entries yet</string>
+    <string name="journal_empty_body">Emotions you record on the wheel will show up here, grouped by day.</string>
+    <string name="journal_add_note">Add note</string>
+    <string name="journal_edit_note">Edit note</string>
+    <string name="journal_note_hint">What was going on?</string>
+    <string name="journal_note_save">Save</string>
+    <string name="journal_note_cancel">Cancel</string>
+
+    <!-- Settings -->
+    <string name="settings_data_section">Data</string>
+    <string name="settings_export_csv">Export to CSV</string>
+    <string name="settings_export_csv_toast">Feature to come</string>
+    <string name="settings_delete_all">Delete all entries</string>
+    <string name="settings_delete_all_warning_title">This can\'t be undone</string>
+    <string name="settings_delete_all_warning_body">Deleting all entries permanently removes every recorded emotion and note from this device. There is no backup.</string>
+    <string name="settings_delete_all_warning_ack">I understand</string>
+    <string name="settings_delete_all_confirm_2">Tap \"Delete all entries\" 2 more times to confirm</string>
+    <string name="settings_delete_all_confirm_1">Tap \"Delete all entries\" 1 more time to confirm</string>
+    <string name="settings_delete_all_done_toast">All entries deleted</string>
+    <string name="settings_about_section">About</string>
+    <string name="settings_about_body">Emotion Tracker is free software, licensed under the GNU GPL v3. Your data never leaves this device.</string>
+</resources>

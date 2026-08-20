@@ -1,6 +1,7 @@
 # GitHub Workflows
 
-508 Devkit separates common GitHub hygiene from team-specific automation.
+Common GitHub hygiene, adopted from the 508 Devkit template this repo was
+generated from and kept because it's stack-agnostic.
 
 ## Default Files
 
@@ -11,7 +12,8 @@ Root `.github/` files are meant to be safe defaults for most repositories:
 - `.github/ISSUE_TEMPLATE/feature_request.yml`: captures product or workflow requests.
 - `.github/ISSUE_TEMPLATE/docs_request.yml`: captures documentation gaps.
 - `.github/ISSUE_TEMPLATE/config.yml`: keeps blank issues allowed and documents where to add discussion links.
-- `.github/workflows/ci.yml`: runs baseline web/tooling, Python stack, and Compose checks.
+- `.github/workflows/ci.yml`: ktlint, unit tests, Android lint, and a debug
+  APK build via `./gradlew`. See `docs/tooling.md` for the pinned toolchain.
 
 Keep these templates short. They should improve issue and PR quality without making lightweight collaboration feel bureaucratic.
 

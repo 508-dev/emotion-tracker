@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+   Pre-Android-12 backup rules. The Room database is small, local-only, and
+   contains only what the user typed into this app, so full backup is fine.
+   Tighten this if a future feature adds anything sensitive to app storage.
+-->
+<full-backup-content>
+</full-backup-content>

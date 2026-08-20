@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+   Simple mark: a circle split into the app's two top-level emotion halves
+   (Positive / Negative), echoing the emotion wheel's opening screen.
+   Kept within the 66dp adaptive-icon safe zone centered in the 108dp canvas.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#2D6CDF"
+        android:pathData="M54,21 A33,33 0 0 1 54,87 Z" />
+    <path
+        android:fillColor="#C4453B"
+        android:pathData="M54,21 A33,33 0 0 0 54,87 Z" />
+    <path
+        android:fillColor="#1C1B1F"
+        android:pathData="M54,47 a7,7 0 1 0 0.01,0 z" />
+</vector>

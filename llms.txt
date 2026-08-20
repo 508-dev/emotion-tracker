@@ -1,39 +1,28 @@
-# 508 Devkit
+# Emotion Tracker
 
-508 Devkit is an opinionated reference repo of sane defaults and conventions for software projects. It comes from 508.dev practice, but it is meant to be useful outside 508.dev too.
+A free (GPL-3), offline-first Android app for recording emotions against a
+timeline via a tap-driven emotion wheel, targeting F-Droid distribution.
+Kotlin + Jetpack Compose + Room, single Gradle module, no backend.
 
 ## Start Here
 
-- `README.md`: overview and quickstart.
+- `README.md`: overview, tooling, quickstart.
+- `SPEC.md`: the MVP product spec (deleted once the MVP ships).
 - `AGENTS.md`: agent operating instructions.
-- `DECISIONS.md`: decision authority for devkit topology and policy.
-- `MANIFEST.md`: file inventory and template-selection checklist.
-- `docs/pattern-report.md`: source patterns behind the scaffold.
-- `docs/template-proposal.md`: design rationale for included files.
-- `docs/frontend.md`: framework-neutral frontend policy.
-- `docs/github-workflows.md`: GitHub templates and workflow guidance.
-- `docs/github-template.md`: generated-repo cleanup checklist.
-- `docs/supply-chain.md`: dependency safety policy.
+- `DECISIONS.md`: this project's architecture decisions and why.
+- `app/src/main/assets/emotion_tree.json`: the emotion wheel's dev-editable content.
+- `docs/tooling.md`: pinned dependency versions.
+- `docs/development.md`: local development runbook.
 
 ## Key Conventions
 
-- Use `uv` for Python workspaces when the Python stack is selected.
-- Check `uv --no-config --version` before adding `exclude-newer = "P7D"`; ask
-  before upgrading uv if the target has a version older than `0.9.17`.
-- Show Bun first for JavaScript examples, but treat pnpm as first-class when a
-  repo or team prefers it.
-- Keep frontend framework choice out of root defaults.
-- Run app services on the host and infrastructure in Docker Compose.
-- Use deterministic worktree ports from `scripts/worktree-ports.sh`.
-- Keep `.context/` gitignored and workspace-local; durable knowledge belongs in tracked docs.
-- Put language/runtime conventions in `stacks/` and opt-in add-ons in `extras/`.
-- Before applying the devkit, use `MANIFEST.md` to produce a selection report
-  covering every top-level path in the devkit and target repo.
+- No network calls, no `INTERNET` permission, no telemetry — everything is local.
+- The emotion tree is referenced by stable per-node id, never by full path.
+- No dependency injection framework; one hand-rolled composition root.
+- Dependencies must be free software (F-Droid requirement) — see `DECISIONS.md`.
 
 ## Validation
 
-Use:
-
 ```bash
-./scripts/check-all.sh
+./gradlew check
 ```

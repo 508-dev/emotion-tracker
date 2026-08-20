@@ -1,0 +1,104 @@
+{
+  "version": 1,
+  "root": {
+    "id": "root",
+    "label": "How are you feeling?",
+    "color": "#9AA0A6",
+    "children": [
+      {
+        "id": "positive",
+        "label": "Positive",
+        "color": "#2D6CDF",
+        "children": [
+          {
+            "id": "positive.calm",
+            "label": "Calm",
+            "color": "#3E8E7E",
+            "children": [
+              { "id": "positive.calm.content", "label": "Content", "color": "#3E8E7E", "children": [] },
+              { "id": "positive.calm.relaxed", "label": "Relaxed", "color": "#4FA48F", "children": [] },
+              { "id": "positive.calm.peaceful", "label": "Peaceful", "color": "#63B8A0", "children": [] }
+            ]
+          },
+          {
+            "id": "positive.excited",
+            "label": "Excited",
+            "color": "#F2A93B",
+            "children": [
+              { "id": "positive.excited.happy", "label": "Happy", "color": "#F2A93B", "children": [] },
+              { "id": "positive.excited.proud", "label": "Proud", "color": "#E8892B", "children": [] },
+              { "id": "positive.excited.optimistic", "label": "Optimistic", "color": "#FFC15E", "children": [] }
+            ]
+          },
+          {
+            "id": "positive.grateful",
+            "label": "Grateful",
+            "color": "#8E6CC4",
+            "children": [
+              { "id": "positive.grateful.thankful", "label": "Thankful", "color": "#8E6CC4", "children": [] },
+              { "id": "positive.grateful.appreciative", "label": "Appreciative", "color": "#A084D6", "children": [] },
+              { "id": "positive.grateful.fulfilled", "label": "Fulfilled", "color": "#7A57B0", "children": [] }
+            ]
+          },
+          {
+            "id": "positive.loving",
+            "label": "Loving",
+            "color": "#E0679A",
+            "children": [
+              { "id": "positive.loving.affectionate", "label": "Affectionate", "color": "#E0679A", "children": [] },
+              { "id": "positive.loving.warm", "label": "Warm", "color": "#EC85AF", "children": [] },
+              { "id": "positive.loving.connected", "label": "Connected", "color": "#C94F80", "children": [] }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "negative",
+        "label": "Negative",
+        "color": "#C4453B",
+        "children": [
+          {
+            "id": "negative.sad",
+            "label": "Sad",
+            "color": "#4A6FA5",
+            "children": [
+              { "id": "negative.sad.lonely", "label": "Lonely", "color": "#4A6FA5", "children": [] },
+              { "id": "negative.sad.disappointed", "label": "Disappointed", "color": "#5D82B8", "children": [] },
+              { "id": "negative.sad.hopeless", "label": "Hopeless", "color": "#385A8A", "children": [] }
+            ]
+          },
+          {
+            "id": "negative.angry",
+            "label": "Angry",
+            "color": "#B23A2E",
+            "children": [
+              { "id": "negative.angry.frustrated", "label": "Frustrated", "color": "#B23A2E", "children": [] },
+              { "id": "negative.angry.irritated", "label": "Irritated", "color": "#C2503F", "children": [] },
+              { "id": "negative.angry.resentful", "label": "Resentful", "color": "#9C2E23", "children": [] }
+            ]
+          },
+          {
+            "id": "negative.anxious",
+            "label": "Anxious",
+            "color": "#C77B2E",
+            "children": [
+              { "id": "negative.anxious.worried", "label": "Worried", "color": "#C77B2E", "children": [] },
+              { "id": "negative.anxious.overwhelmed", "label": "Overwhelmed", "color": "#B96A1E", "children": [] },
+              { "id": "negative.anxious.nervous", "label": "Nervous", "color": "#D68F4C", "children": [] }
+            ]
+          },
+          {
+            "id": "negative.tired",
+            "label": "Tired",
+            "color": "#6B6B6B",
+            "children": [
+              { "id": "negative.tired.exhausted", "label": "Exhausted", "color": "#6B6B6B", "children": [] },
+              { "id": "negative.tired.drained", "label": "Drained", "color": "#5A5A5A", "children": [] },
+              { "id": "negative.tired.bored", "label": "Bored", "color": "#828282", "children": [] }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
