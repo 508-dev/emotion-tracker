@@ -31,6 +31,17 @@ Bump versions deliberately: Renovate opens PRs against
 the expected update path. Don't hand-edit versions opportunistically outside
 of that unless fixing something broken.
 
+**AGP 9+ has built-in Kotlin support.** Do not apply
+`org.jetbrains.kotlin.android` (`kotlin-android`) in `app/build.gradle.kts`
+or the root `build.gradle.kts` — AGP 9.0+ compiles Kotlin itself and applying
+that plugin alongside it is a hard build error, not a warning. The
+`org.jetbrains.kotlin.plugin.compose`, `org.jetbrains.kotlin.plugin.serialization`,
+and `com.google.devtools.ksp` sub-plugins are still applied separately as
+normal — built-in Kotlin only subsumes the base Kotlin-Android plugin. JVM
+target now comes from `android.compileOptions.targetCompatibility`
+directly; there's no separate `kotlin { compilerOptions { jvmTarget ... } }`
+block to set. See <https://developer.android.com/build/migrate-to-built-in-kotlin>.
+
 ## Required Checks
 
 ```bash

@@ -62,7 +62,7 @@ normal path and handles SDK/emulator setup for you.
 
 ```text
 app/                    The single Gradle module (all app code lives here for now)
-  src/main/java/...     Kotlin source, package dev.508.emotiontracker
+  src/main/java/...     Kotlin source, package dev.co508.emotiontracker
   src/main/assets/emotion_tree.json   The emotion wheel's content — see below
   src/main/res/         Android resources (strings, themes, launcher icon)
   src/test/             JVM unit tests

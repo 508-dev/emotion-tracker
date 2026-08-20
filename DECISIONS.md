@@ -85,6 +85,23 @@ Why: per spec's stated objective.
 Deviate when: never, without discussing — this is a stated product goal, not
 an implementation detail.
 
+## Application ID: `dev.co508.emotiontracker`
+
+Decision: `dev.co508.emotiontracker`, not the originally-picked `dev.508.emotiontracker`.
+
+Why: a bare `508` package segment is invalid twice over, discovered only once
+a real build ran (not from reading docs beforehand). Java/Kotlin identifiers
+can't start with a digit — `dev._508.emotiontracker` (leading underscore)
+satisfies that — but Android's own manifest package-name rule is stricter
+still and requires every segment to *start with a letter*, underscore
+included; AAPT rejects `_508` outright. `co508` (co-op + 508) satisfies both
+and keeps the intended 508.dev branding. This is set once, verified building
+end-to-end (`./gradlew assembleDebug`) on 2026-08-20.
+
+Deviate when: never without discussing — this is the permanent F-Droid
+package identity (see "GPL-3, Targeting F-Droid" below); changing it later
+means shipping a new listing, not an update to the old one.
+
 ## SDK Levels: minSdk 26, targetSdk 36, compileSdk 37
 
 Decision: `minSdk = 26` (Android 8.0, Oreo), `targetSdk = 36`, `compileSdk =

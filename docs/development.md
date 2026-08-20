@@ -40,7 +40,7 @@ the CLI, with a device connected or emulator running:
 
 ```bash
 ./gradlew installDebug
-adb shell am start -n dev.508.emotiontracker.debug/dev.508.emotiontracker.MainActivity
+adb shell am start -n dev.co508.emotiontracker.debug/dev.co508.emotiontracker.MainActivity
 ```
 
 (Debug builds get a `.debug` application-id suffix — see `app/build.gradle.kts`

@@ -1,8 +1,12 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
+// No `org.jetbrains.kotlin.android` here: AGP 9+ has built-in Kotlin support
+// and applying that plugin alongside it is a build error. See
+// https://developer.android.com/build/migrate-to-built-in-kotlin. The
+// compose/serialization/ksp sub-plugins below are still applied separately —
+// built-in Kotlin only subsumes the base kotlin-android plugin, not these.
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
@@ -10,11 +14,11 @@ plugins {
 }
 
 android {
-    namespace = "dev.508.emotiontracker"
+    namespace = "dev.co508.emotiontracker"
     compileSdk = 37
 
     defaultConfig {
-        applicationId = "dev.508.emotiontracker"
+        applicationId = "dev.co508.emotiontracker"
         // API 26 (Android 8.0) gives us java.time natively, so entry timestamps
         // don't need core library desugaring. Revisit only with a concrete
         // reach requirement below that floor.
@@ -38,9 +42,10 @@ android {
             // Unsigned release builds are still buildable for CI/verification.
             val keystorePropertiesFile = rootProject.file("keystore.properties")
             if (keystorePropertiesFile.exists()) {
-                val keystoreProperties = java.util.Properties().apply {
-                    load(keystorePropertiesFile.inputStream())
-                }
+                val keystoreProperties =
+                    Properties().apply {
+                        load(keystorePropertiesFile.inputStream())
+                    }
                 signingConfigs.create("release") {
                     storeFile = rootProject.file(keystoreProperties.getProperty("storeFile"))
                     storePassword = keystoreProperties.getProperty("storePassword")
@@ -55,6 +60,8 @@ android {
         }
     }
 
+    // Built-in Kotlin's jvmTarget defaults to targetCompatibility below, so
+    // there's no separate `kotlin { compilerOptions { ... } }` block needed.
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -68,12 +75,6 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
-    }
-}
-
-kotlin {
-    compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_17)
     }
 }
 
