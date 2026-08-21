@@ -118,6 +118,37 @@ Deviate when: a concrete device-reach requirement demands a lower `minSdk`,
 or `targetSdk`/`compileSdk` need bumping to pick up newer library versions —
 check `docs/tooling.md` for the current pins first.
 
+## Reminders: Exact Alarms With A Graceful Fallback
+
+Decision: reminders live in Room (new `reminders` table, schema v2) and are
+scheduled one-shot with `AlarmManager.setExactAndAllowWhileIdle(RTC_WAKEUP,
+…)` at the next occurrence of the chosen time, re-armed for the following day
+when the alarm fires. The app declares `SCHEDULE_EXACT_ALARM`; where exact
+alarms aren't permitted (API 31+ without the user granting "Alarms & reminders"
+access, which is the default on API 34+), it falls back to
+`setAndAllowWhileIdle`, and the Reminders screen offers a one-tap prompt to
+open the exact-alarm settings page. Because AlarmManager alarms don't survive
+reboot (and shift on timezone change), a manifest receiver re-reads the table
+and re-arms every enabled reminder on `BOOT_COMPLETED`/`TIMEZONE_CHANGED`/
+`MY_PACKAGE_REPLACED`; when an alarm fires, the receiver posts a notification
+whose tap opens the app on the emotion wheel (`MainActivity` is
+`launchMode="singleTop"` and resets navigation to the wheel on an
+`ACTION_OPEN_WHEEL` intent).
+
+Why: the first cut used `setInexactRepeating`, which on modern Android batches
+alarms and defers them under Doze — a reminder set for 14:45 arrived minutes
+later with the screen on (and can be deferred far longer under deep Doze),
+which defeats the feature. Exact alarms deliver at the chosen time even in
+Doze. The cost is the `SCHEDULE_EXACT_ALARM` special permission (denied by
+default on API 34+), so the fallback plus settings prompt keeps the feature
+working even if the user declines. `POST_NOTIFICATIONS` (API 33+) is the other
+runtime permission, requested only when the user adds or enables their first
+reminder.
+
+Deviate when: day-of-week exclusion gets scoped — the table only stores
+hour/minute today, so adding a `daysOfWeek` column later is a schema v3
+migration, not a redesign.
+
 ## Deferred: Instrumented (`androidTest`) Coverage
 
 Decision: MVP ships with JVM unit tests only (`app/src/test/`) covering the

@@ -10,6 +10,8 @@ Open the app, tap through an emotion wheel (Positive/Negative → progressively
 specific feelings), and save. That's the whole interaction — the app is
 optimized for capturing a feeling in a few taps, not for data entry. A
 journal view shows saved entries grouped by day, with optional text notes.
+Reminders lets you set any number of daily times to get a notification
+nudging you to record how you're feeling (tapping it opens the wheel).
 Settings has an "Export to CSV" placeholder and a triple-confirmed "delete
 all entries."
 
@@ -29,7 +31,7 @@ closed-source analytics).
 - **Kotlin** + **Jetpack Compose** (Material 3) for UI — the emotion wheel is
   a custom `Canvas` composable, which is why Compose rather than Views.
 - **Room** for local storage.
-- **Navigation Compose** for the hamburger menu's three destinations.
+- **Navigation Compose** for the hamburger menu's four destinations.
 - **Gradle** (Kotlin DSL) with a version catalog at `gradle/libs.versions.toml`.
 - **ktlint** (via the `org.jlleitschuh.gradle.ktlint` Gradle plugin) for lint/format.
 - No dependency injection framework — one small hand-rolled composition root

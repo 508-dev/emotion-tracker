@@ -3,12 +3,13 @@ package dev.co508.emotiontracker.ui.navigation
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
+import androidx.compose.material.icons.filled.Alarm
 import androidx.compose.material.icons.filled.DonutLarge
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.ui.graphics.vector.ImageVector
 import dev.co508.emotiontracker.R
 
-/** The hamburger menu's destinations, in the order the spec lists them. */
+/** The hamburger menu's destinations, in drawer order. */
 enum class Destination(
     val route: String,
     @param:StringRes val labelRes: Int,
@@ -16,5 +17,6 @@ enum class Destination(
 ) {
     Wheel("wheel", R.string.nav_wheel, Icons.Filled.DonutLarge),
     Journal("journal", R.string.nav_journal, Icons.AutoMirrored.Filled.MenuBook),
+    Reminders("reminders", R.string.nav_reminders, Icons.Filled.Alarm),
     Settings("settings", R.string.nav_settings, Icons.Filled.Settings),
 }

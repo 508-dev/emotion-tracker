@@ -15,8 +15,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -26,16 +30,36 @@ import androidx.navigation.compose.rememberNavController
 import dev.co508.emotiontracker.R
 import dev.co508.emotiontracker.ui.navigation.AppNavHost
 import dev.co508.emotiontracker.ui.navigation.Destination
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppScaffold() {
+fun AppScaffold(
+    /** Incremented each time a notification tap asks to land on the wheel. */
+    openWheelRequests: StateFlow<Int>,
+) {
     val navController = rememberNavController()
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route
+
+    // Reset to the wheel (the main screen) when a reminder notification is
+    // tapped while the app is in the background on another screen. On a cold
+    // start the wheel is already the start destination, so the remember()
+    // baseline swallows that case and nothing needs to happen.
+    var lastOpenWheelRequest by remember { mutableIntStateOf(openWheelRequests.value) }
+    LaunchedEffect(openWheelRequests) {
+        openWheelRequests.collect { request ->
+            if (request != lastOpenWheelRequest) {
+                lastOpenWheelRequest = request
+                navController.navigate(Destination.Wheel.route) {
+                    popUpTo(navController.graph.findStartDestination().id) { inclusive = true }
+                }
+            }
+        }
+    }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
