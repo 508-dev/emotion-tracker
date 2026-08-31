@@ -8,28 +8,28 @@
       {
         "id": "positive",
         "label": "Positive",
-        "color": "#2D6CDF",
+        "color": "#9CCEB5",
         "children": [
           {
             "id": "positive.calm",
             "label": "Calm",
-            "color": "#3E8E7E",
+            "color": "#A7A8D2",
             "children": [
               {
                 "id": "positive.calm.content",
                 "label": "Content",
-                "color": "#3E8E7E",
+                "color": "#D6D0B3",
                 "children": [
                   {
                     "id": "positive.calm.content.satisfied",
                     "label": "Satisfied",
-                    "color": "#438F80",
+                    "color": "#DABEC1",
                     "children": []
                   },
                   {
                     "id": "positive.calm.content.comfortable",
                     "label": "Comfortable",
-                    "color": "#49988A",
+                    "color": "#BED8DA",
                     "children": []
                   }
                 ]
@@ -37,18 +37,18 @@
               {
                 "id": "positive.calm.relaxed",
                 "label": "Relaxed",
-                "color": "#4FA48F",
+                "color": "#B3D6C4",
                 "children": [
                   {
                     "id": "positive.calm.relaxed.atEase",
                     "label": "At Ease",
-                    "color": "#59AD98",
+                    "color": "#BECBDA",
                     "children": []
                   },
                   {
                     "id": "positive.calm.relaxed.unburdened",
                     "label": "Unburdened",
-                    "color": "#63B6A1",
+                    "color": "#DAD3BE",
                     "children": []
                   }
                 ]
@@ -56,18 +56,18 @@
               {
                 "id": "positive.calm.peaceful",
                 "label": "Peaceful",
-                "color": "#63B8A0",
+                "color": "#B9B3D6",
                 "children": [
                   {
                     "id": "positive.calm.peaceful.serene",
                     "label": "Serene",
-                    "color": "#6FC0AA",
+                    "color": "#DAC2BE",
                     "children": []
                   },
                   {
                     "id": "positive.calm.peaceful.centered",
                     "label": "Centered",
-                    "color": "#78C8B3",
+                    "color": "#BED1DA",
                     "children": []
                   }
                 ]
@@ -75,18 +75,18 @@
               {
                 "id": "positive.calm.relieved",
                 "label": "Relieved",
-                "color": "#57A992",
+                "color": "#D6B3B7",
                 "children": [
                   {
                     "id": "positive.calm.relieved.reassured",
                     "label": "Reassured",
-                    "color": "#62B29C",
+                    "color": "#DABEBE",
                     "children": []
                   },
                   {
                     "id": "positive.calm.relieved.safe",
                     "label": "Safe",
-                    "color": "#6CBAA5",
+                    "color": "#BED5DA",
                     "children": []
                   }
                 ]
@@ -97,23 +97,23 @@
           {
             "id": "positive.joyful",
             "label": "Joyful",
-            "color": "#F2A93B",
+            "color": "#D2A7D1",
             "children": [
               {
                 "id": "positive.joyful.happy",
                 "label": "Happy",
-                "color": "#F2A93B",
+                "color": "#D6B3C6",
                 "children": [
                   {
                     "id": "positive.joyful.happy.cheerful",
                     "label": "Cheerful",
-                    "color": "#F5B44D",
+                    "color": "#BED6DA",
                     "children": []
                   },
                   {
                     "id": "positive.joyful.happy.delighted",
                     "label": "Delighted",
-                    "color": "#F7BE5D",
+                    "color": "#DAC7BE",
                     "children": []
                   }
                 ]
@@ -121,18 +121,18 @@
               {
                 "id": "positive.joyful.playful",
                 "label": "Playful",
-                "color": "#F4B84D",
+                "color": "#C0D6B3",
                 "children": [
                   {
                     "id": "positive.joyful.playful.silly",
                     "label": "Silly",
-                    "color": "#F6C160",
+                    "color": "#BED2DA",
                     "children": []
                   },
                   {
                     "id": "positive.joyful.playful.amused",
                     "label": "Amused",
-                    "color": "#F8CA72",
+                    "color": "#DACBBE",
                     "children": []
                   }
                 ]
@@ -140,18 +140,18 @@
               {
                 "id": "positive.joyful.elated",
                 "label": "Elated",
-                "color": "#EFA02E",
+                "color": "#B3BAD6",
                 "children": [
                   {
                     "id": "positive.joyful.elated.ecstatic",
                     "label": "Ecstatic",
-                    "color": "#F4AC37",
+                    "color": "#D6DABE",
                     "children": []
                   },
                   {
                     "id": "positive.joyful.elated.euphoric",
                     "label": "Euphoric",
-                    "color": "#F8B745",
+                    "color": "#C7BEDA",
                     "children": []
                   }
                 ]
@@ -162,23 +162,23 @@
           {
             "id": "positive.excited",
             "label": "Excited",
-            "color": "#E8892B",
+            "color": "#D2ABA7",
             "children": [
               {
                 "id": "positive.excited.enthusiastic",
                 "label": "Enthusiastic",
-                "color": "#E8892B",
+                "color": "#D6B3B4",
                 "children": [
                   {
                     "id": "positive.excited.enthusiastic.energized",
                     "label": "Energized",
-                    "color": "#EC9639",
+                    "color": "#BFDABE",
                     "children": []
                   },
                   {
                     "id": "positive.excited.enthusiastic.eager",
                     "label": "Eager",
-                    "color": "#F0A247",
+                    "color": "#DABED6",
                     "children": []
                   }
                 ]
@@ -186,18 +186,18 @@
               {
                 "id": "positive.excited.anticipatory",
                 "label": "Anticipatory",
-                "color": "#ED9835",
+                "color": "#B3D6B8",
                 "children": [
                   {
                     "id": "positive.excited.anticipatory.expectant",
                     "label": "Expectant",
-                    "color": "#F0A343",
+                    "color": "#BEC9DA",
                     "children": []
                   },
                   {
                     "id": "positive.excited.anticipatory.thrilled",
                     "label": "Thrilled",
-                    "color": "#F4AD51",
+                    "color": "#DAD4BE",
                     "children": []
                   }
                 ]
@@ -205,18 +205,18 @@
               {
                 "id": "positive.excited.inspired",
                 "label": "Inspired",
-                "color": "#F0A447",
+                "color": "#BEB3D6",
                 "children": [
                   {
                     "id": "positive.excited.inspired.motivated",
                     "label": "Motivated",
-                    "color": "#F2AF56",
+                    "color": "#BEDAD8",
                     "children": []
                   },
                   {
                     "id": "positive.excited.inspired.activated",
                     "label": "Activated",
-                    "color": "#F5B965",
+                    "color": "#DAC1BE",
                     "children": []
                   }
                 ]
@@ -227,23 +227,23 @@
           {
             "id": "positive.interested",
             "label": "Interested",
-            "color": "#4B83C3",
+            "color": "#CDD2A7",
             "children": [
               {
                 "id": "positive.interested.curious",
                 "label": "Curious",
-                "color": "#4B83C3",
+                "color": "#B3B9D6",
                 "children": [
                   {
                     "id": "positive.interested.curious.intrigued",
                     "label": "Intrigued",
-                    "color": "#5A90CB",
+                    "color": "#C6DABE",
                     "children": []
                   },
                   {
                     "id": "positive.interested.curious.fascinated",
                     "label": "Fascinated",
-                    "color": "#699CD3",
+                    "color": "#D7BEDA",
                     "children": []
                   }
                 ]
@@ -251,18 +251,18 @@
               {
                 "id": "positive.interested.engaged",
                 "label": "Engaged",
-                "color": "#5A91C8",
+                "color": "#D6D6B3",
                 "children": [
                   {
                     "id": "positive.interested.engaged.absorbed",
                     "label": "Absorbed",
-                    "color": "#69A0D0",
+                    "color": "#C7DABE",
                     "children": []
                   },
                   {
                     "id": "positive.interested.engaged.focused",
                     "label": "Focused",
-                    "color": "#78ACD7",
+                    "color": "#D6BEDA",
                     "children": []
                   }
                 ]
@@ -273,23 +273,23 @@
           {
             "id": "positive.confident",
             "label": "Confident",
-            "color": "#5577B8",
+            "color": "#A7D2AE",
             "children": [
               {
                 "id": "positive.confident.proud",
                 "label": "Proud",
-                "color": "#5577B8",
+                "color": "#D1D6B3",
                 "children": [
                   {
                     "id": "positive.confident.proud.accomplished",
                     "label": "Accomplished",
-                    "color": "#6585C1",
+                    "color": "#D3DABE",
                     "children": []
                   },
                   {
                     "id": "positive.confident.proud.capable",
                     "label": "Capable",
-                    "color": "#7593C9",
+                    "color": "#CABEDA",
                     "children": []
                   }
                 ]
@@ -297,18 +297,18 @@
               {
                 "id": "positive.confident.secure",
                 "label": "Secure",
-                "color": "#6685C1",
+                "color": "#B3CAD6",
                 "children": [
                   {
                     "id": "positive.confident.secure.selfAssured",
                     "label": "Self-assured",
-                    "color": "#7693C9",
+                    "color": "#BEDAD5",
                     "children": []
                   },
                   {
                     "id": "positive.confident.secure.grounded",
                     "label": "Grounded",
-                    "color": "#86A1D1",
+                    "color": "#DABEBE",
                     "children": []
                   }
                 ]
@@ -316,18 +316,18 @@
               {
                 "id": "positive.confident.hopeful",
                 "label": "Hopeful",
-                "color": "#7893C9",
+                "color": "#D6B3C4",
                 "children": [
                   {
                     "id": "positive.confident.hopeful.optimistic",
                     "label": "Optimistic",
-                    "color": "#87A1D1",
+                    "color": "#BEDAD0",
                     "children": []
                   },
                   {
                     "id": "positive.confident.hopeful.encouraged",
                     "label": "Encouraged",
-                    "color": "#96AFD8",
+                    "color": "#DABEC3",
                     "children": []
                   }
                 ]
@@ -338,29 +338,29 @@
           {
             "id": "positive.grateful",
             "label": "Grateful",
-            "color": "#8E6CC4",
+            "color": "#A7CAD2",
             "children": [
               {
                 "id": "positive.grateful.thankful",
                 "label": "Thankful",
-                "color": "#8E6CC4",
+                "color": "#D6D2B3",
                 "children": []
               },
               {
                 "id": "positive.grateful.appreciative",
                 "label": "Appreciative",
-                "color": "#A084D6",
+                "color": "#B3D3D6",
                 "children": [
                   {
                     "id": "positive.grateful.appreciative.touched",
                     "label": "Touched",
-                    "color": "#AA90DC",
+                    "color": "#BEDAC9",
                     "children": []
                   },
                   {
                     "id": "positive.grateful.appreciative.fortunate",
                     "label": "Fortunate",
-                    "color": "#B49CE2",
+                    "color": "#DABECA",
                     "children": []
                   }
                 ]
@@ -368,18 +368,18 @@
               {
                 "id": "positive.grateful.fulfilled",
                 "label": "Fulfilled",
-                "color": "#7A57B0",
+                "color": "#D6B3CD",
                 "children": [
                   {
                     "id": "positive.grateful.fulfilled.complete",
                     "label": "Complete",
-                    "color": "#8967B9",
+                    "color": "#C8BEDA",
                     "children": []
                   },
                   {
                     "id": "positive.grateful.fulfilled.meaningful",
                     "label": "Meaningful",
-                    "color": "#9777C2",
+                    "color": "#CBDABE",
                     "children": []
                   }
                 ]
@@ -390,23 +390,23 @@
           {
             "id": "positive.loving",
             "label": "Loving",
-            "color": "#E0679A",
+            "color": "#B1A7D2",
             "children": [
               {
                 "id": "positive.loving.affectionate",
                 "label": "Affectionate",
-                "color": "#E0679A",
+                "color": "#B3D6D3",
                 "children": [
                   {
                     "id": "positive.loving.affectionate.tender",
                     "label": "Tender",
-                    "color": "#E776A5",
+                    "color": "#BEDAD6",
                     "children": []
                   },
                   {
                     "id": "positive.loving.affectionate.fond",
                     "label": "Fond",
-                    "color": "#EB85AF",
+                    "color": "#DABEBE",
                     "children": []
                   }
                 ]
@@ -414,24 +414,24 @@
               {
                 "id": "positive.loving.connected",
                 "label": "Connected",
-                "color": "#C94F80",
+                "color": "#D6B3D3",
                 "children": [
                   {
                     "id": "positive.loving.connected.close",
                     "label": "Close",
-                    "color": "#D15E8D",
+                    "color": "#C3BEDA",
                     "children": []
                   },
                   {
                     "id": "positive.loving.connected.accepted",
                     "label": "Accepted",
-                    "color": "#D86D99",
+                    "color": "#DAC8BE",
                     "children": []
                   },
                   {
                     "id": "positive.loving.connected.belonging",
                     "label": "Belonging",
-                    "color": "#DF7CA5",
+                    "color": "#BEDACD",
                     "children": []
                   }
                 ]
@@ -439,18 +439,18 @@
               {
                 "id": "positive.loving.caring",
                 "label": "Caring",
-                "color": "#D85B8D",
+                "color": "#CCD6B3",
                 "children": [
                   {
                     "id": "positive.loving.caring.compassionate",
                     "label": "Compassionate",
-                    "color": "#DF6B99",
+                    "color": "#BEC2DA",
                     "children": []
                   },
                   {
                     "id": "positive.loving.caring.supportive",
                     "label": "Supportive",
-                    "color": "#E57BA5",
+                    "color": "#D9DABE",
                     "children": []
                   }
                 ]
@@ -459,32 +459,31 @@
           }
         ]
       },
-
       {
         "id": "negative",
         "label": "Negative",
-        "color": "#C4453B",
+        "color": "#CE9CAC",
         "children": [
           {
             "id": "negative.sad",
             "label": "Sad",
-            "color": "#4A6FA5",
+            "color": "#ABD2A7",
             "children": [
               {
                 "id": "negative.sad.lonely",
                 "label": "Lonely",
-                "color": "#4A6FA5",
+                "color": "#B3D5D6",
                 "children": [
                   {
                     "id": "negative.sad.lonely.isolated",
                     "label": "Isolated",
-                    "color": "#426496",
+                    "color": "#DABEC4",
                     "children": []
                   },
                   {
                     "id": "negative.sad.lonely.abandoned",
                     "label": "Abandoned",
-                    "color": "#395987",
+                    "color": "#BEDAD9",
                     "children": []
                   }
                 ]
@@ -492,18 +491,18 @@
               {
                 "id": "negative.sad.disappointed",
                 "label": "Disappointed",
-                "color": "#5D82B8",
+                "color": "#CCB3D6",
                 "children": [
                   {
                     "id": "negative.sad.disappointed.letDown",
                     "label": "Let Down",
-                    "color": "#5477A9",
+                    "color": "#CCBEDA",
                     "children": []
                   },
                   {
                     "id": "negative.sad.disappointed.disillusioned",
                     "label": "Disillusioned",
-                    "color": "#4B6C9A",
+                    "color": "#C7DABE",
                     "children": []
                   }
                 ]
@@ -511,18 +510,18 @@
               {
                 "id": "negative.sad.hopeless",
                 "label": "Hopeless",
-                "color": "#385A8A",
+                "color": "#D6C1B3",
                 "children": [
                   {
                     "id": "negative.sad.hopeless.discouraged",
                     "label": "Discouraged",
-                    "color": "#405F8F",
+                    "color": "#DAD1BE",
                     "children": []
                   },
                   {
                     "id": "negative.sad.hopeless.despairing",
                     "label": "Despairing",
-                    "color": "#304E7A",
+                    "color": "#BEC2DA",
                     "children": []
                   }
                 ]
@@ -530,18 +529,18 @@
               {
                 "id": "negative.sad.grieving",
                 "label": "Grieving",
-                "color": "#526F9A",
+                "color": "#B3D6B5",
                 "children": [
                   {
                     "id": "negative.sad.grieving.sorrowful",
                     "label": "Sorrowful",
-                    "color": "#49658E",
+                    "color": "#C5DABE",
                     "children": []
                   },
                   {
                     "id": "negative.sad.grieving.heartbroken",
                     "label": "Heartbroken",
-                    "color": "#405B82",
+                    "color": "#D9BEDA",
                     "children": []
                   }
                 ]
@@ -552,23 +551,23 @@
           {
             "id": "negative.angry",
             "label": "Angry",
-            "color": "#B23A2E",
+            "color": "#A7D2C5",
             "children": [
               {
                 "id": "negative.angry.irritated",
                 "label": "Irritated",
-                "color": "#C2503F",
+                "color": "#B3D6C6",
                 "children": [
                   {
                     "id": "negative.angry.irritated.annoyed",
                     "label": "Annoyed",
-                    "color": "#CA5E4E",
+                    "color": "#C1DABE",
                     "children": []
                   },
                   {
                     "id": "negative.angry.irritated.agitated",
                     "label": "Agitated",
-                    "color": "#B94738",
+                    "color": "#DABED8",
                     "children": []
                   }
                 ]
@@ -576,24 +575,24 @@
               {
                 "id": "negative.angry.frustrated",
                 "label": "Frustrated",
-                "color": "#B23A2E",
+                "color": "#BBB3D6",
                 "children": [
                   {
                     "id": "negative.angry.frustrated.blocked",
                     "label": "Blocked",
-                    "color": "#A93429",
+                    "color": "#BEDAD7",
                     "children": []
                   },
                   {
                     "id": "negative.angry.frustrated.impatient",
                     "label": "Impatient",
-                    "color": "#BD4639",
+                    "color": "#DABED8",
                     "children": []
                   },
                   {
                     "id": "negative.angry.frustrated.exasperated",
                     "label": "Exasperated",
-                    "color": "#A42F26",
+                    "color": "#D3DABE",
                     "children": []
                   }
                 ]
@@ -601,18 +600,18 @@
               {
                 "id": "negative.angry.resentful",
                 "label": "Resentful",
-                "color": "#9C2E23",
+                "color": "#D6B3B6",
                 "children": [
                   {
                     "id": "negative.angry.resentful.bitter",
                     "label": "Bitter",
-                    "color": "#92291F",
+                    "color": "#BEDAD3",
                     "children": []
                   },
                   {
                     "id": "negative.angry.resentful.wronged",
                     "label": "Wronged",
-                    "color": "#A5372C",
+                    "color": "#DABEBF",
                     "children": []
                   }
                 ]
@@ -620,18 +619,18 @@
               {
                 "id": "negative.angry.furious",
                 "label": "Furious",
-                "color": "#98271E",
+                "color": "#C1D6B3",
                 "children": [
                   {
                     "id": "negative.angry.furious.enraged",
                     "label": "Enraged",
-                    "color": "#8C211A",
+                    "color": "#BECEDA",
                     "children": []
                   },
                   {
                     "id": "negative.angry.furious.livid",
                     "label": "Livid",
-                    "color": "#7F1B16",
+                    "color": "#DACFBE",
                     "children": []
                   }
                 ]
@@ -642,23 +641,23 @@
           {
             "id": "negative.anxious",
             "label": "Anxious",
-            "color": "#C77B2E",
+            "color": "#A7BDD2",
             "children": [
               {
                 "id": "negative.anxious.worried",
                 "label": "Worried",
-                "color": "#C77B2E",
+                "color": "#B5B3D6",
                 "children": [
                   {
                     "id": "negative.anxious.worried.uneasy",
                     "label": "Uneasy",
-                    "color": "#CE883C",
+                    "color": "#D7DABE",
                     "children": []
                   },
                   {
                     "id": "negative.anxious.worried.apprehensive",
                     "label": "Apprehensive",
-                    "color": "#B97025",
+                    "color": "#C6BEDA",
                     "children": []
                   }
                 ]
@@ -666,18 +665,18 @@
               {
                 "id": "negative.anxious.nervous",
                 "label": "Nervous",
-                "color": "#D68F4C",
+                "color": "#D6BCB3",
                 "children": [
                   {
                     "id": "negative.anxious.nervous.jittery",
                     "label": "Jittery",
-                    "color": "#DC9B5B",
+                    "color": "#BEC9DA",
                     "children": []
                   },
                   {
                     "id": "negative.anxious.nervous.tense",
                     "label": "Tense",
-                    "color": "#CA8241",
+                    "color": "#DAD4BE",
                     "children": []
                   }
                 ]
@@ -685,24 +684,24 @@
               {
                 "id": "negative.anxious.overwhelmed",
                 "label": "Overwhelmed",
-                "color": "#B96A1E",
+                "color": "#B3D6C2",
                 "children": [
                   {
                     "id": "negative.anxious.overwhelmed.stressed",
                     "label": "Stressed",
-                    "color": "#AE6018",
+                    "color": "#BED2DA",
                     "children": []
                   },
                   {
                     "id": "negative.anxious.overwhelmed.frazzled",
                     "label": "Frazzled",
-                    "color": "#A55714",
+                    "color": "#DABECD",
                     "children": []
                   },
                   {
                     "id": "negative.anxious.overwhelmed.panicked",
                     "label": "Panicked",
-                    "color": "#994E12",
+                    "color": "#C8DABE",
                     "children": []
                   }
                 ]
@@ -713,23 +712,23 @@
           {
             "id": "negative.afraid",
             "label": "Afraid",
-            "color": "#7B568C",
+            "color": "#B3A7D2",
             "children": [
               {
                 "id": "negative.afraid.scared",
                 "label": "Scared",
-                "color": "#7B568C",
+                "color": "#B4D6B3",
                 "children": [
                   {
                     "id": "negative.afraid.scared.frightened",
                     "label": "Frightened",
-                    "color": "#704D82",
+                    "color": "#BEDAD8",
                     "children": []
                   },
                   {
                     "id": "negative.afraid.scared.terrified",
                     "label": "Terrified",
-                    "color": "#624475",
+                    "color": "#DAC0BE",
                     "children": []
                   }
                 ]
@@ -737,18 +736,18 @@
               {
                 "id": "negative.afraid.insecure",
                 "label": "Insecure",
-                "color": "#89669A",
+                "color": "#B8B3D6",
                 "children": [
                   {
                     "id": "negative.afraid.insecure.vulnerable",
                     "label": "Vulnerable",
-                    "color": "#7E5C90",
+                    "color": "#DACBBE",
                     "children": []
                   },
                   {
                     "id": "negative.afraid.insecure.uncertain",
                     "label": "Uncertain",
-                    "color": "#9574A5",
+                    "color": "#BEC7DA",
                     "children": []
                   }
                 ]
@@ -756,18 +755,18 @@
               {
                 "id": "negative.afraid.threatened",
                 "label": "Threatened",
-                "color": "#704B80",
+                "color": "#D6BFB3",
                 "children": [
                   {
                     "id": "negative.afraid.threatened.unsafe",
                     "label": "Unsafe",
-                    "color": "#654375",
+                    "color": "#BEC6DA",
                     "children": []
                   },
                   {
                     "id": "negative.afraid.threatened.defensive",
                     "label": "Defensive",
-                    "color": "#79568A",
+                    "color": "#DAD7BE",
                     "children": []
                   }
                 ]
@@ -778,23 +777,23 @@
           {
             "id": "negative.hurt",
             "label": "Hurt",
-            "color": "#A24E6B",
+            "color": "#D2A7D0",
             "children": [
               {
                 "id": "negative.hurt.rejected",
                 "label": "Rejected",
-                "color": "#A24E6B",
+                "color": "#D2B3D6",
                 "children": [
                   {
                     "id": "negative.hurt.rejected.excluded",
                     "label": "Excluded",
-                    "color": "#98455F",
+                    "color": "#BED9DA",
                     "children": []
                   },
                   {
                     "id": "negative.hurt.rejected.unwanted",
                     "label": "Unwanted",
-                    "color": "#8D3D55",
+                    "color": "#DAC4BE",
                     "children": []
                   }
                 ]
@@ -802,18 +801,18 @@
               {
                 "id": "negative.hurt.betrayed",
                 "label": "Betrayed",
-                "color": "#94435E",
+                "color": "#D3D6B3",
                 "children": [
                   {
                     "id": "negative.hurt.betrayed.deceived",
                     "label": "Deceived",
-                    "color": "#893A53",
+                    "color": "#C6BEDA",
                     "children": []
                   },
                   {
                     "id": "negative.hurt.betrayed.abandoned",
                     "label": "Abandoned",
-                    "color": "#7E334A",
+                    "color": "#CCDABE",
                     "children": []
                   }
                 ]
@@ -821,18 +820,18 @@
               {
                 "id": "negative.hurt.misunderstood",
                 "label": "Misunderstood",
-                "color": "#B05E78",
+                "color": "#B3CDD6",
                 "children": [
                   {
                     "id": "negative.hurt.misunderstood.invalidated",
                     "label": "Invalidated",
-                    "color": "#A6536D",
+                    "color": "#D9DABE",
                     "children": []
                   },
                   {
                     "id": "negative.hurt.misunderstood.unheard",
                     "label": "Unheard",
-                    "color": "#9B4962",
+                    "color": "#C4BEDA",
                     "children": []
                   }
                 ]
@@ -843,23 +842,23 @@
           {
             "id": "negative.ashamed",
             "label": "Ashamed",
-            "color": "#80575C",
+            "color": "#D2A7AE",
             "children": [
               {
                 "id": "negative.ashamed.guilty",
                 "label": "Guilty",
-                "color": "#80575C",
+                "color": "#D5D6B3",
                 "children": [
                   {
                     "id": "negative.ashamed.guilty.remorseful",
                     "label": "Remorseful",
-                    "color": "#744E53",
+                    "color": "#DABFBE",
                     "children": []
                   },
                   {
                     "id": "negative.ashamed.guilty.regretful",
                     "label": "Regretful",
-                    "color": "#8B6267",
+                    "color": "#BED4DA",
                     "children": []
                   }
                 ]
@@ -867,18 +866,18 @@
               {
                 "id": "negative.ashamed.embarrassed",
                 "label": "Embarrassed",
-                "color": "#95656B",
+                "color": "#B3CFD6",
                 "children": [
                   {
                     "id": "negative.ashamed.embarrassed.selfConscious",
                     "label": "Self-conscious",
-                    "color": "#895B61",
+                    "color": "#BECADA",
                     "children": []
                   },
                   {
                     "id": "negative.ashamed.embarrassed.exposed",
                     "label": "Exposed",
-                    "color": "#7D5158",
+                    "color": "#DAD3BE",
                     "children": []
                   }
                 ]
@@ -886,18 +885,18 @@
               {
                 "id": "negative.ashamed.inadequate",
                 "label": "Inadequate",
-                "color": "#745057",
+                "color": "#D6B3C9",
                 "children": [
                   {
                     "id": "negative.ashamed.inadequate.inferior",
                     "label": "Inferior",
-                    "color": "#69484F",
+                    "color": "#DABEC3",
                     "children": []
                   },
                   {
                     "id": "negative.ashamed.inadequate.unworthy",
                     "label": "Unworthy",
-                    "color": "#5E4047",
+                    "color": "#BEDADA",
                     "children": []
                   }
                 ]
@@ -908,23 +907,23 @@
           {
             "id": "negative.disgusted",
             "label": "Disgusted",
-            "color": "#69824A",
+            "color": "#D2C2A7",
             "children": [
               {
                 "id": "negative.disgusted.repulsed",
                 "label": "Repulsed",
-                "color": "#69824A",
+                "color": "#D4D6B3",
                 "children": [
                   {
                     "id": "negative.disgusted.repulsed.revolted",
                     "label": "Revolted",
-                    "color": "#5D753F",
+                    "color": "#BECEDA",
                     "children": []
                   },
                   {
                     "id": "negative.disgusted.repulsed.sickened",
                     "label": "Sickened",
-                    "color": "#526936",
+                    "color": "#DACFBE",
                     "children": []
                   }
                 ]
@@ -932,18 +931,18 @@
               {
                 "id": "negative.disgusted.disapproving",
                 "label": "Disapproving",
-                "color": "#798F5B",
+                "color": "#BCB3D6",
                 "children": [
                   {
                     "id": "negative.disgusted.disapproving.judgmental",
                     "label": "Judgmental",
-                    "color": "#6D834F",
+                    "color": "#BED6DA",
                     "children": []
                   },
                   {
                     "id": "negative.disgusted.disapproving.contemptuous",
                     "label": "Contemptuous",
-                    "color": "#607644",
+                    "color": "#DAC7BE",
                     "children": []
                   }
                 ]
@@ -954,23 +953,23 @@
           {
             "id": "negative.confused",
             "label": "Confused",
-            "color": "#82715D",
+            "color": "#C1D2A7",
             "children": [
               {
                 "id": "negative.confused.uncertain",
                 "label": "Uncertain",
-                "color": "#82715D",
+                "color": "#B3C1D6",
                 "children": [
                   {
                     "id": "negative.confused.uncertain.unsure",
                     "label": "Unsure",
-                    "color": "#8E7D69",
+                    "color": "#BFBEDA",
                     "children": []
                   },
                   {
                     "id": "negative.confused.uncertain.indecisive",
                     "label": "Indecisive",
-                    "color": "#766653",
+                    "color": "#D4DABE",
                     "children": []
                   }
                 ]
@@ -978,18 +977,18 @@
               {
                 "id": "negative.confused.lost",
                 "label": "Lost",
-                "color": "#746350",
+                "color": "#D6CEB3",
                 "children": [
                   {
                     "id": "negative.confused.lost.disoriented",
                     "label": "Disoriented",
-                    "color": "#685847",
+                    "color": "#BED5DA",
                     "children": []
                   },
                   {
                     "id": "negative.confused.lost.perplexed",
                     "label": "Perplexed",
-                    "color": "#806F5C",
+                    "color": "#DAC8BE",
                     "children": []
                   }
                 ]
@@ -1000,23 +999,23 @@
           {
             "id": "negative.disengaged",
             "label": "Disengaged",
-            "color": "#747474",
+            "color": "#A7D2AF",
             "children": [
               {
                 "id": "negative.disengaged.bored",
                 "label": "Bored",
-                "color": "#828282",
+                "color": "#D6B3BF",
                 "children": [
                   {
                     "id": "negative.disengaged.bored.unstimulated",
                     "label": "Unstimulated",
-                    "color": "#898989",
+                    "color": "#D4DABE",
                     "children": []
                   },
                   {
                     "id": "negative.disengaged.bored.restless",
                     "label": "Restless",
-                    "color": "#777777",
+                    "color": "#C9BEDA",
                     "children": []
                   }
                 ]
@@ -1024,18 +1023,18 @@
               {
                 "id": "negative.disengaged.apathetic",
                 "label": "Apathetic",
-                "color": "#6D6D6D",
+                "color": "#B9D6B3",
                 "children": [
                   {
                     "id": "negative.disengaged.apathetic.indifferent",
                     "label": "Indifferent",
-                    "color": "#757575",
+                    "color": "#DABED5",
                     "children": []
                   },
                   {
                     "id": "negative.disengaged.apathetic.numb",
                     "label": "Numb",
-                    "color": "#606060",
+                    "color": "#BEDAC8",
                     "children": []
                   }
                 ]
@@ -1043,18 +1042,18 @@
               {
                 "id": "negative.disengaged.unmotivated",
                 "label": "Unmotivated",
-                "color": "#797979",
+                "color": "#B3B3D6",
                 "children": [
                   {
                     "id": "negative.disengaged.unmotivated.listless",
                     "label": "Listless",
-                    "color": "#707070",
+                    "color": "#DAC8BE",
                     "children": []
                   },
                   {
                     "id": "negative.disengaged.unmotivated.discouraged",
                     "label": "Discouraged",
-                    "color": "#686868",
+                    "color": "#BECBDA",
                     "children": []
                   }
                 ]
@@ -1065,23 +1064,23 @@
           {
             "id": "negative.tired",
             "label": "Tired",
-            "color": "#5F6670",
+            "color": "#A7D2D1",
             "children": [
               {
                 "id": "negative.tired.fatigued",
                 "label": "Fatigued",
-                "color": "#6B6B6B",
+                "color": "#B7D6B3",
                 "children": [
                   {
                     "id": "negative.tired.fatigued.sleepy",
                     "label": "Sleepy",
-                    "color": "#747474",
+                    "color": "#DABED6",
                     "children": []
                   },
                   {
                     "id": "negative.tired.fatigued.weary",
                     "label": "Weary",
-                    "color": "#626262",
+                    "color": "#BEDAC7",
                     "children": []
                   }
                 ]
@@ -1089,18 +1088,18 @@
               {
                 "id": "negative.tired.drained",
                 "label": "Drained",
-                "color": "#5A5A5A",
+                "color": "#B5B3D6",
                 "children": [
                   {
                     "id": "negative.tired.drained.depleted",
                     "label": "Depleted",
-                    "color": "#515151",
+                    "color": "#DACCBE",
                     "children": []
                   },
                   {
                     "id": "negative.tired.drained.burnedOut",
                     "label": "Burned Out",
-                    "color": "#484848",
+                    "color": "#BEC6DA",
                     "children": []
                   }
                 ]
@@ -1108,18 +1107,18 @@
               {
                 "id": "negative.tired.exhausted",
                 "label": "Exhausted",
-                "color": "#505761",
+                "color": "#D6BBB3",
                 "children": [
                   {
                     "id": "negative.tired.exhausted.spent",
                     "label": "Spent",
-                    "color": "#484F58",
+                    "color": "#BEDACB",
                     "children": []
                   },
                   {
                     "id": "negative.tired.exhausted.overextended",
                     "label": "Overextended",
-                    "color": "#424851",
+                    "color": "#DABEC8",
                     "children": []
                   }
                 ]

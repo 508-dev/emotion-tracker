@@ -7,12 +7,14 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -65,6 +68,14 @@ fun AppScaffold(
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet {
+                // The wheel screen itself has no title bar (see topBar below),
+                // so the app's name only shows up here, once the drawer is
+                // opened.
+                Text(
+                    text = stringResource(R.string.app_name),
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier = Modifier.padding(horizontal = 28.dp, vertical = 16.dp),
+                )
                 Destination.entries.forEach { destination ->
                     NavigationDrawerItem(
                         icon = { Icon(destination.icon, contentDescription = null) },
@@ -86,8 +97,13 @@ fun AppScaffold(
     ) {
         Scaffold(
             topBar = {
+                // The wheel is the main screen and wants full-bleed vertical
+                // space — no title bar there, just an always-reachable
+                // hamburger icon; the title itself only shows once the
+                // drawer is opened (see drawerContent above).
+                val isWheel = currentRoute == Destination.Wheel.route
                 TopAppBar(
-                    title = { Text(stringResource(R.string.app_name)) },
+                    title = { if (!isWheel) Text(stringResource(R.string.app_name)) },
                     navigationIcon = {
                         IconButton(onClick = { scope.launch { drawerState.open() } }) {
                             Icon(
@@ -96,6 +112,12 @@ fun AppScaffold(
                             )
                         }
                     },
+                    colors =
+                        if (isWheel) {
+                            TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent)
+                        } else {
+                            TopAppBarDefaults.topAppBarColors()
+                        },
                 )
             },
         ) { innerPadding ->

@@ -17,7 +17,16 @@ fun AppNavHost(
     modifier: Modifier = Modifier,
 ) {
     NavHost(navController = navController, startDestination = Destination.Wheel.route, modifier = modifier) {
-        composable(Destination.Wheel.route) { EmotionWheelScreen(modifier = Modifier.fillMaxSize()) }
+        composable(Destination.Wheel.route) {
+            EmotionWheelScreen(
+                modifier = Modifier.fillMaxSize(),
+                onOpenJournal = {
+                    navController.navigate(Destination.Journal.route) {
+                        launchSingleTop = true
+                    }
+                },
+            )
+        }
         composable(Destination.Journal.route) { JournalScreen(modifier = Modifier.fillMaxSize()) }
         composable(Destination.Reminders.route) { RemindersScreen(modifier = Modifier.fillMaxSize()) }
         composable(Destination.Settings.route) { SettingsScreen(modifier = Modifier.fillMaxSize()) }

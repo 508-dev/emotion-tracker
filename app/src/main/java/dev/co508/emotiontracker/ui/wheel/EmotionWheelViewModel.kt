@@ -40,9 +40,8 @@ class EmotionWheelViewModel(
     /**
      * Records whatever level is currently on screen — not just a bottomed-out
      * leaf. Someone might only want to record "Positive" or "Calm" without
-     * picking further; the wheel's center disk still only offers a bare
-     * "Save" circle once a level has no children (see [EmotionWheel]), but
-     * this explicit action works at any depth past the root.
+     * picking further, so the wheel's center hub offers save at any depth
+     * past the root (see [EmotionWheel]).
      */
     fun save() {
         val current = _path.value.last()

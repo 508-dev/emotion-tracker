@@ -14,8 +14,8 @@
          resource, so the root's own prompt ("How are you feeling?") lives
          there as the tree root's label — single source of truth. -->
     <string name="wheel_back">Back</string>
-    <string name="wheel_save">Save</string>
     <string name="wheel_saved_toast">Saved %1$s</string>
+    <string name="wheel_open_journal">Open journal</string>
 
     <!-- Journal -->
     <string name="journal_empty_title">No entries yet</string>
