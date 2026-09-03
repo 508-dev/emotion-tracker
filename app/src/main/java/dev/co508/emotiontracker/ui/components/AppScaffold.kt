@@ -83,10 +83,27 @@ fun AppScaffold(
                         selected = currentRoute == destination.route,
                         onClick = {
                             scope.launch { drawerState.close() }
-                            navController.navigate(destination.route) {
-                                popUpTo(navController.graph.findStartDestination().id) { saveState = true }
-                                launchSingleTop = true
-                                restoreState = true
+                            // Screens can also be reached outside the drawer
+                            // (e.g. the wheel's "Open journal" link), which
+                            // pushes onto the back stack without the
+                            // saveState/restoreState bookkeeping below. If
+                            // the destination is already alive on the stack
+                            // from one of those routes, popUpTo +
+                            // launchSingleTop silently no-ops instead of
+                            // returning to it — Navigation only considers it
+                            // "already on top" and skips the navigation
+                            // entirely. Popping straight to it sidesteps
+                            // that; only fall back to the normal
+                            // save/restore dance when it isn't on the stack
+                            // yet.
+                            if (currentRoute != destination.route &&
+                                !navController.popBackStack(destination.route, inclusive = false)
+                            ) {
+                                navController.navigate(destination.route) {
+                                    popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
                             }
                         },
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
