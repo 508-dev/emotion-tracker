@@ -53,4 +53,9 @@ class EmotionRepository(
     suspend fun deleteAllEntries() {
         dao.deleteAll()
     }
+
+    /** Bulk-adds entries parsed from a restored CSV (see [EmotionCsv.parse]). Purely additive — never touches existing entries. */
+    suspend fun restoreEntries(entries: List<EmotionEntryEntity>) {
+        if (entries.isNotEmpty()) dao.insertAll(entries)
+    }
 }

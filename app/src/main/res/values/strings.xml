@@ -46,7 +46,13 @@
     <!-- Settings -->
     <string name="settings_data_section">Data</string>
     <string name="settings_export_csv">Export to CSV</string>
-    <string name="settings_export_csv_toast">Feature to come</string>
+    <string name="settings_export_csv_done_toast">Exported</string>
+    <string name="settings_download_template_csv">Download template CSV</string>
+    <string name="settings_template_csv_done_toast">Template saved</string>
+    <string name="settings_restore_csv">Restore from CSV</string>
+    <string name="settings_restore_csv_hint">Restores entries from an exported or filled-in template CSV. Only adds entries — never changes or removes existing ones.</string>
+    <string name="settings_restore_csv_done_toast">Imported %1$d, skipped %2$d</string>
+    <string name="settings_csv_failed_toast">Something went wrong — check the file and try again</string>
     <string name="settings_delete_all">Delete all entries</string>
     <string name="settings_delete_all_warning_title">This can\'t be undone</string>
     <string name="settings_delete_all_warning_body">Deleting all entries permanently removes every recorded emotion and note from this device. There is no backup.</string>

@@ -4,12 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import dev.co508.emotiontracker.data.EmotionCsv
 import dev.co508.emotiontracker.data.EmotionRepository
 import dev.co508.emotiontracker.ui.repository
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
@@ -39,8 +41,17 @@ class SettingsViewModel(
     private val events = Channel<SettingsEvent>(Channel.BUFFERED)
     val eventFlow: Flow<SettingsEvent> = events.receiveAsFlow()
 
-    fun onExportCsvClicked() {
-        viewModelScope.launch { events.send(SettingsEvent.ExportNotImplemented) }
+    /** The journal as CSV text — the caller (Settings screen) owns writing it to a user-chosen file. */
+    suspend fun exportCsv(): String = EmotionCsv.export(repository.observeJournal().first(), repository.tree)
+
+    /** Header-only CSV — the blank starting point for a hand-authored restore file. */
+    fun templateCsv(): String = EmotionCsv.template()
+
+    /** Parses [csv] and adds whatever resolves to the journal; never touches existing entries. */
+    suspend fun restoreCsv(csv: String): RestoreOutcome {
+        val result = EmotionCsv.parse(csv, repository.tree)
+        repository.restoreEntries(result.entries)
+        return RestoreOutcome(imported = result.entries.size, skipped = result.errors.size)
     }
 
     /** Call on every tap of the delete-all button; advances the confirmation state machine. */
@@ -79,7 +90,11 @@ class SettingsViewModel(
 }
 
 sealed interface SettingsEvent {
-    data object ExportNotImplemented : SettingsEvent
-
     data object AllEntriesDeleted : SettingsEvent
 }
+
+/** [imported] entries were added to the journal; [skipped] rows couldn't be resolved (bad date or unrecognized emotion). */
+data class RestoreOutcome(
+    val imported: Int,
+    val skipped: Int,
+)

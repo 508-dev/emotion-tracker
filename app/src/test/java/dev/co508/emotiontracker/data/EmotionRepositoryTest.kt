@@ -38,6 +38,11 @@ private class FakeEmotionEntryDao : EmotionEntryDao {
         return withId.id
     }
 
+    override suspend fun insertAll(entries: List<EmotionEntryEntity>) {
+        val withIds = entries.map { it.copy(id = nextId++) }
+        state.value = withIds.reversed() + state.value
+    }
+
     override fun observeAll(): Flow<List<EmotionEntryEntity>> = state.asStateFlow()
 
     override suspend fun updateNote(
@@ -101,6 +106,25 @@ class EmotionRepositoryTest {
             repository.deleteAllEntries()
 
             assertTrue(repository.observeJournal().first().isEmpty())
+        }
+
+    @Test
+    fun `restoreEntries adds entries without touching existing ones`() =
+        runTest {
+            val dao = FakeEmotionEntryDao()
+            val repository = EmotionRepository(testTree, dao)
+            repository.recordEmotion("positive", atEpochMillis = 1_000L)
+
+            repository.restoreEntries(
+                listOf(
+                    EmotionEntryEntity(emotionId = "positive", recordedAtEpochMillis = 2_000L, note = "restored"),
+                ),
+            )
+
+            val entries = repository.observeJournal().first()
+            assertEquals(2, entries.size)
+            assertTrue(entries.any { it.recordedAtEpochMillis == 1_000L })
+            assertTrue(entries.any { it.recordedAtEpochMillis == 2_000L && it.note == "restored" })
         }
 
     @Test

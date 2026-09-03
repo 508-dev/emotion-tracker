@@ -1,6 +1,9 @@
 package dev.co508.emotiontracker.ui.settings
 
+import android.net.Uri
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,12 +18,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.co508.emotiontracker.R
+import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 @Composable
 fun SettingsScreen(
@@ -29,27 +35,102 @@ fun SettingsScreen(
 ) {
     val deleteAllState by viewModel.deleteAllState.collectAsState()
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
 
     LaunchedEffect(viewModel) {
         viewModel.eventFlow.collect { event ->
             val message =
                 when (event) {
-                    SettingsEvent.ExportNotImplemented -> context.getString(R.string.settings_export_csv_toast)
                     SettingsEvent.AllEntriesDeleted -> context.getString(R.string.settings_delete_all_done_toast)
                 }
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
         }
     }
 
+    fun writeCsv(
+        uri: Uri?,
+        doneMessageRes: Int,
+        content: suspend () -> String,
+    ) {
+        if (uri == null) return
+        scope.launch {
+            val outcome =
+                runCatching {
+                    context.contentResolver.openOutputStream(uri)?.use { it.write(content().toByteArray()) }
+                        ?: error("no output stream for $uri")
+                }
+            val messageRes = if (outcome.isSuccess) doneMessageRes else R.string.settings_csv_failed_toast
+            Toast.makeText(context, context.getString(messageRes), Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    val exportLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("text/csv")) { uri ->
+            writeCsv(uri, R.string.settings_export_csv_done_toast, viewModel::exportCsv)
+        }
+
+    val templateLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("text/csv")) { uri ->
+            writeCsv(uri, R.string.settings_template_csv_done_toast) { viewModel.templateCsv() }
+        }
+
+    val restoreLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri: Uri? ->
+            if (uri == null) return@rememberLauncherForActivityResult
+            scope.launch {
+                val outcome =
+                    runCatching {
+                        val csv =
+                            context.contentResolver
+                                .openInputStream(uri)
+                                ?.bufferedReader()
+                                ?.use { it.readText() }
+                                ?: error("no input stream for $uri")
+                        viewModel.restoreCsv(csv)
+                    }
+                val message =
+                    outcome.fold(
+                        onSuccess = {
+                            context.getString(
+                                R.string.settings_restore_csv_done_toast,
+                                it.imported,
+                                it.skipped,
+                            )
+                        },
+                        onFailure = { context.getString(R.string.settings_csv_failed_toast) },
+                    )
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+            }
+        }
+
     Column(modifier = modifier.fillMaxWidth().padding(16.dp)) {
         Text(stringResource(R.string.settings_data_section), style = MaterialTheme.typography.titleMedium)
 
         OutlinedButton(
-            onClick = viewModel::onExportCsvClicked,
+            onClick = { exportLauncher.launch(csvFileName("emotion-tracker")) },
             modifier = Modifier.padding(top = 12.dp).fillMaxWidth(),
         ) {
             Text(stringResource(R.string.settings_export_csv))
         }
+
+        OutlinedButton(
+            onClick = { templateLauncher.launch(csvFileName("emotion-tracker-template")) },
+            modifier = Modifier.padding(top = 12.dp).fillMaxWidth(),
+        ) {
+            Text(stringResource(R.string.settings_download_template_csv))
+        }
+
+        OutlinedButton(
+            onClick = { restoreLauncher.launch(arrayOf("text/csv", "text/comma-separated-values", "text/plain")) },
+            modifier = Modifier.padding(top = 12.dp).fillMaxWidth(),
+        ) {
+            Text(stringResource(R.string.settings_restore_csv))
+        }
+        Text(
+            stringResource(R.string.settings_restore_csv_hint),
+            style = MaterialTheme.typography.bodySmall,
+            modifier = Modifier.padding(top = 4.dp),
+        )
 
         Button(
             onClick = viewModel::onDeleteAllClicked,
@@ -58,7 +139,7 @@ fun SettingsScreen(
                     containerColor = MaterialTheme.colorScheme.error,
                     contentColor = MaterialTheme.colorScheme.onError,
                 ),
-            modifier = Modifier.padding(top = 12.dp).fillMaxWidth(),
+            modifier = Modifier.padding(top = 24.dp).fillMaxWidth(),
         ) {
             Text(stringResource(R.string.settings_delete_all))
         }
@@ -107,3 +188,5 @@ fun SettingsScreen(
         )
     }
 }
+
+private fun csvFileName(prefix: String): String = "$prefix-${LocalDate.now()}.csv"
