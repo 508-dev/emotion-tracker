@@ -17,8 +17,12 @@ Band widths represent entry counts; tap an emotion label for its count and the
 number of entries saved at that level. Scroll horizontally for deeper splits and
 vertically for more branches. Reminders lets you set any number of daily times
 to get a notification nudging you to record how you're feeling (tapping it opens
-the wheel). Settings has an "Export to CSV" placeholder and a triple-confirmed
-"delete all entries."
+the wheel). Settings offers CSV export/restore, a privacy policy, and a
+triple-confirmed "delete all entries."
+
+Release builds target F-Droid and Google Play. See [release setup](docs/deployment.md)
+for automated versioning, APK/AAB artifacts, signing, and the remaining store
+setup. Listing text lives in `fastlane/metadata/android/`.
 
 The app has no backend, no network permission, and no analytics. Everything
 lives in a local Room (SQLite) database on the device.

@@ -29,7 +29,7 @@ jobs:
       - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
         with:
           distribution: temurin
-          java-version: "17"
+          java-version: "25"
 
       - uses: gradle/actions/setup-gradle@9c971963bec38e04b3d30dcc455b5382be2fdbfb # v6
 
@@ -42,6 +42,13 @@ jobs:
       - name: ktlint
         run: ./gradlew ktlintCheck
 
+      - name: Release metadata and script tests
+        run: |
+          ./scripts/sync-version.sh --check
+          ./scripts/sync-privacy.sh --check
+          ./scripts/test-release.sh
+          shellcheck scripts/*.sh
+
       - name: Unit tests
         run: ./gradlew testDebugUnitTest
 
@@ -49,11 +56,22 @@ jobs:
         run: ./gradlew lintDebug
 
       - name: Assemble debug APK
-        run: ./gradlew assembleDebug
+        run: ./gradlew assembleDebug assembleRelease bundleRelease
 
       - name: Upload debug APK
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: app-debug
           path: app/build/outputs/apk/debug/*.apk
+          retention-days: 14
+
+      - name: Upload unsigned release builds
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: release-unsigned
+          path: |
+            app/build/outputs/apk/release/*.apk
+            app/build/outputs/bundle/release/*.aab
+            app/build/outputs/mapping/release/mapping.txt
+          if-no-files-found: error
           retention-days: 14

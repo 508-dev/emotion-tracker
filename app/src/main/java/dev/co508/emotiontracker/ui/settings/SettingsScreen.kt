@@ -2,11 +2,17 @@ package dev.co508.emotiontracker.ui.settings
 
 import android.net.Uri
 import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.compose.material3.Icon
+import androidx.compose.material.icons.Icons
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.automirrored.filled.OpenInNew
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -18,13 +24,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.co508.emotiontracker.R
+import dev.co508.emotiontracker.ui.components.rememberUrlOpener
+import dev.co508.emotiontracker.ui.components.clickableItem
+import androidx.compose.material3.ListItem
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
@@ -35,13 +49,15 @@ fun SettingsScreen(
 ) {
     val deleteAllState by viewModel.deleteAllState.collectAsState()
     val context = LocalContext.current
+    val resources = LocalResources.current
+    var showPrivacy by rememberSaveable { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
 
-    LaunchedEffect(viewModel) {
+    LaunchedEffect(viewModel, resources) {
         viewModel.eventFlow.collect { event ->
             val message =
                 when (event) {
-                    SettingsEvent.AllEntriesDeleted -> context.getString(R.string.settings_delete_all_done_toast)
+                    SettingsEvent.AllEntriesDeleted -> resources.getString(R.string.settings_delete_all_done_toast)
                 }
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
         }
@@ -60,7 +76,7 @@ fun SettingsScreen(
                         ?: error("no output stream for $uri")
                 }
             val messageRes = if (outcome.isSuccess) doneMessageRes else R.string.settings_csv_failed_toast
-            Toast.makeText(context, context.getString(messageRes), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, resources.getString(messageRes), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -91,19 +107,19 @@ fun SettingsScreen(
                 val message =
                     outcome.fold(
                         onSuccess = {
-                            context.getString(
+                            resources.getString(
                                 R.string.settings_restore_csv_done_toast,
                                 it.imported,
                                 it.skipped,
                             )
                         },
-                        onFailure = { context.getString(R.string.settings_csv_failed_toast) },
+                        onFailure = { resources.getString(R.string.settings_csv_failed_toast) },
                     )
                 Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
             }
         }
 
-    Column(modifier = modifier.fillMaxWidth().padding(16.dp)) {
+    Column(modifier = modifier.fillMaxWidth().verticalScroll(rememberScrollState()).padding(16.dp)) {
         Text(stringResource(R.string.settings_data_section), style = MaterialTheme.typography.titleMedium)
 
         OutlinedButton(
@@ -173,6 +189,49 @@ fun SettingsScreen(
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.padding(top = 8.dp),
         )
+        Text(
+            stringResource(R.string.about_508_title),
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(top = 32.dp),
+        )
+        Text(
+            stringResource(R.string.about_508_body),
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(top = 8.dp),
+        )
+
+            LinkItem(
+                labelRes = R.string.about_link_508,
+                urlRes = R.string.about_link_508_url,
+            )
+
+
+           LinkItem(
+                labelRes = R.string.about_link_repo,
+                urlRes = R.string.about_link_repo_url,
+            )
+
+
+  
+
+        TextButton(onClick = { showPrivacy = true }) {
+            Text(stringResource(R.string.settings_privacy_policy))
+        }
+    }
+
+    if (showPrivacy) {
+        val privacy =
+            remember(resources) {
+                resources.openRawResource(R.raw.privacy_policy).bufferedReader().use { it.readText() }
+            }
+        AlertDialog(
+            onDismissRequest = { showPrivacy = false },
+            title = { Text(stringResource(R.string.settings_privacy_policy)) },
+            text = { Text(privacy, modifier = Modifier.verticalScroll(rememberScrollState())) },
+            confirmButton = {
+                TextButton(onClick = { showPrivacy = false }) { Text(stringResource(R.string.settings_privacy_close)) }
+            },
+        )
     }
 
     if (deleteAllState is DeleteAllState.WarningShown) {
@@ -190,3 +249,19 @@ fun SettingsScreen(
 }
 
 private fun csvFileName(prefix: String): String = "$prefix-${LocalDate.now()}.csv"
+
+@Composable
+private fun LinkItem(
+    @StringRes labelRes: Int,
+    @StringRes urlRes: Int,
+) {
+    val url = stringResource(urlRes)
+    val openUrl = rememberUrlOpener()
+
+    ListItem(
+        headlineContent = { Text(stringResource(labelRes)) },
+        supportingContent = { Text(url) },
+        trailingContent = { Icon(Icons.AutoMirrored.Filled.OpenInNew, contentDescription = null) },
+        modifier = Modifier.clickableItem(onClick = { openUrl(url) }),
+    )
+}

@@ -13,6 +13,8 @@ stable releases:
 | --- | --- | --- |
 | Android Gradle Plugin | 9.2.0 | Requires Gradle 9.4.1+, JDK 17. |
 | Gradle (wrapper) | 9.4.1 | `gradle/wrapper/gradle-wrapper.properties`, sha256-verified. |
+| Gradle daemon JDK | 25 | Committed daemon criteria; CI installs Temurin 25 explicitly. Java/Kotlin bytecode target stays 17. |
+| fdroidserver (publishing only) | 2.4.5 | Matches Soundboard; isolated runner venv, never an app dependency. |
 | Kotlin | 2.3.20 | |
 | KSP | 2.3.11 | Used for Room's annotation processor. KSP now versions independently of Kotlin — if Android Studio flags a mismatch, bump this, not Kotlin. |
 | Compose BOM | 2026.08.00 | Pins all `androidx.compose.*` artifact versions together. |
@@ -59,9 +61,9 @@ Or all at once: `./gradlew check assembleDebug` (what CI runs; see
 Android Studio is the expected IDE — it bundles a matching JDK, the Android
 SDK, platform-tools, and an emulator. Let it manage its own embedded JDK
 (**Settings → Build Tools → Gradle**) rather than pointing it at a system
-`java`; AGP 9.2.0 requires JDK 17 specifically; there is no guarantee the
-system JDK matches (this dev machine currently has JDK 26 installed, for
-example, which AGP 9.2.0 cannot build with directly).
+`java`; JDK 17 is AGP's minimum, while this repo's committed daemon criteria
+select Java 25. Use Android Studio's bundled JBR when appropriate. F-Droid's
+builder must provide the pinned daemon JDK or permit its declared download.
 
 ## Dependency Safety
 

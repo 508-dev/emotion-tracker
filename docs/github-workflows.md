@@ -13,7 +13,12 @@ Root `.github/` files are meant to be safe defaults for most repositories:
 - `.github/ISSUE_TEMPLATE/docs_request.yml`: captures documentation gaps.
 - `.github/ISSUE_TEMPLATE/config.yml`: keeps blank issues allowed and documents where to add discussion links.
 - `.github/workflows/ci.yml`: ktlint, unit tests, Android lint, and a debug
-  APK build via `./gradlew`. See `docs/tooling.md` for the pinned toolchain.
+  APK plus unsigned release APK/AAB, version/policy drift and release-script
+  checks. See `docs/tooling.md` for the pinned toolchain.
+- `.github/workflows/pr-title.yml`: Conventional Commit titles for squash merges.
+- `.github/workflows/release.yml`: release PRs and tagged builds, signed GitHub
+  APKs when configured, optional Play internal drafts and self-hosted F-Droid.
+  Both jobs use the Prod environment. See `deployment.md` and `secrets.md`.
 
 Keep these templates short. They should improve issue and PR quality without making lightweight collaboration feel bureaucratic.
 

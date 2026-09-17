@@ -1,27 +1,53 @@
-# Secrets
+# Release secrets
 
-There is exactly one class of secret in this repo: release-signing key
-material, used only when producing a signed release APK (see
-`docs/deployment.md`). The app itself has no API keys, no backend
-credentials, and no runtime configuration — it makes no network calls.
+The app has no runtime API keys or backend credentials. Release automation uses
+signing material and publishing credentials, configured in GitHub **Settings →
+Environments → Prod → Environment secrets**. Never commit or print their values.
 
-## Release Signing
+| Secret | Purpose |
+| --- | --- |
+| `RELEASE_KEYSTORE_BASE64` | Base64-encoded Emotion Tracker signing keystore |
+| `RELEASE_KEYSTORE_PASSWORD` | Keystore password |
+| `RELEASE_KEY_ALIAS` | Key alias, e.g. `emotion-tracker` |
+| `RELEASE_KEY_PASSWORD` | Key password (same as store password for PKCS12) |
+| `RELEASE_PLEASE_TOKEN` | Fine-grained repo Contents/PR write token so release PRs trigger CI |
+| `PLAY_SERVICE_ACCOUNT_JSON` | Play service account JSON with this app's testing-release access |
 
-1. Generate a keystore (see the command in `keystore.properties.example`).
-2. Copy `keystore.properties.example` to `keystore.properties` and fill in
-   the real values.
-3. Never commit `keystore.properties` or the keystore file itself — both are
-   gitignored. If either is ever accidentally committed, rotate the signing
-   key (generate a new keystore); scrubbing git history is not sufficient,
-   same as any other leaked credential.
+Create a new app key only if one has not already been used for this application:
 
-Debug builds (`./gradlew assembleDebug`/`installDebug`) don't need any of
-this — they use Android's auto-generated debug keystore.
+```bash
+keytool -genkeypair -v -keystore release.keystore -alias emotion-tracker \
+  -keyalg RSA -keysize 2048 -validity 10000
+```
 
-## Agent Notes
+Keep the key and passwords in durable secure storage outside git. Supply Base64
+to GitHub through a private channel, not a captured terminal/chat transcript.
+Do not reuse Soundboard's private key. Debug builds use Android's debug key.
 
-- Never print the contents of `keystore.properties` or a keystore file.
-- If a real `keystore.properties` or `.jks`/`.keystore` file shows up staged
-  for commit, stop and flag it rather than committing it.
-- Report a security concern to caleb@508.dev (see `SECURITY.md`), not a
-  public issue.
+For local release builds, copy `keystore.properties.example` to the gitignored
+`keystore.properties` and fill it privately. CI maps GitHub secrets to:
+
+- `EMOTION_TRACKER_KEYSTORE_FILE`
+- `EMOTION_TRACKER_KEYSTORE_PASSWORD`
+- `EMOTION_TRACKER_KEY_ALIAS`
+- `EMOTION_TRACKER_KEY_PASSWORD`
+
+If any of these environment values are set, they take precedence as a complete
+set over the local file. Partial signing configuration fails with a message
+that names only the missing configuration, never a value.
+
+Optional self-hosted F-Droid uses the app key to sign its repository index,
+as Soundboard does. This couples repository trust and app identity: rotating
+that key affects both, and clients pin the repository certificate fingerprint.
+Its transient `FDROID_*` environment variables are also secrets. Git auth uses
+an askpass helper instead of putting the token in a remote URL. Temporary
+keystores/configuration are excluded from published paths and cleaned up.
+
+`ENABLE_PLAY_PUBLISH` and `ENABLE_FDROID_PUBLISH` are non-secret variables,
+not credentials. Both default off. Store setup and signing policy are described
+in [deployment.md](deployment.md).
+
+If a key leaks, report privately to caleb@508.dev and evaluate the applicable
+store's key upgrade/recovery process. Blindly replacing an app-signing key can
+make updates incompatible with installed copies. Never print keystore contents,
+passwords, Base64, service account JSON, or token values while investigating.

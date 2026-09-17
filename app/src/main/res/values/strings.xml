@@ -74,5 +74,17 @@
     <string name="settings_delete_all_confirm_1">Tap \"Delete all entries\" 1 more time to confirm</string>
     <string name="settings_delete_all_done_toast">All entries deleted</string>
     <string name="settings_about_section">About</string>
-    <string name="settings_about_body">Emotion Tracker is free software, licensed under the GNU GPL v3. Your data never leaves this device.</string>
+    <string name="settings_about_body">Emotion Tracker is free software, licensed under the GNU GPL v3. Entries are stored locally. Android backups and files you export follow your device and storage-provider settings.</string>
+
+    <string name="about_508_title">About 508.dev</string>
+    <string name="about_508_body">508.dev is a software engineering co-op with members in the USA, Taiwan, Japan, and Ethiopia. A co-op is a company that\'s owned by its workers, rather than shareholders or founders. 508.dev is available for consulting on interesting, ethical projects. If you\'re interested in discussing, or in joining, please visit our website, linked below.</string>
+
+    <string name="about_link_508">508.dev</string>
+    <string name="about_link_508_url">https://508.dev</string>
+
+    <string name="about_link_repo">Source code</string>
+    <string name="about_link_repo_url">https://github.com/508-dev/emotion-tracker</string>
+
+    <string name="settings_privacy_policy">Privacy policy</string>
+    <string name="settings_privacy_close">Close</string>
 </resources>

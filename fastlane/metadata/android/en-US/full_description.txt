@@ -1,0 +1,12 @@
+Capture how you feel in a few taps.
+
+Start with Positive or Negative, explore increasingly specific feelings, and save at any level of the emotion wheel. Add an optional note immediately after saving, or keep recording.
+
+• Journal: review recorded emotions by day and add or edit notes.
+• Charts: explore the paths to your saved emotions in a Sankey chart.
+• Reminders: choose daily times for a gentle check-in.
+• CSV: export your entries or restore entries from a file you choose.
+
+No account, ads, analytics, or app-operated cloud service. Emotions and notes are stored on your device. Android backup or device transfer may include app data according to your device settings. Exported files are saved to the location you choose, which may be a cloud provider.
+
+Emotion Tracker is free software, licensed under GNU GPL v3. It is a personal reflection journal, not a medical device, and does not diagnose or treat conditions.

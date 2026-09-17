@@ -1,0 +1,25 @@
+# App metadata for the SELF-HOSTED F-Droid repository (gh-pages / GitHub Pages).
+#
+# This repo distributes APKs we build and sign ourselves, so there is no
+# `Builds:` section — fdroidserver reads the version straight out of each APK it
+# finds in `repo/`. The name, summary, description, changelogs, and screenshots
+# all come from `fastlane/metadata/android/`, which
+# `scripts/fdroid-publish.sh` copies into `metadata/dev.co508.emotiontracker/`.
+# Keep store copy there, not here, so Play and both F-Droid paths stay in sync.
+#
+# The f-droid.org submission is a different file with different requirements:
+# fdroid/fdroiddata/dev.co508.emotiontracker.yml.template. See docs/deployment.md.
+
+Categories:
+  - Sports & Health
+License: GPL-3.0-only
+AuthorName: 508.dev
+AuthorEmail: caleb@508.dev
+AuthorWebSite: https://508.dev
+WebSite: https://508.dev
+SourceCode: https://github.com/508-dev/emotion-tracker
+IssueTracker: https://github.com/508-dev/emotion-tracker/issues
+Changelog: https://github.com/508-dev/emotion-tracker/blob/HEAD/CHANGELOG.md
+
+RepoType: git
+Repo: https://github.com/508-dev/emotion-tracker.git

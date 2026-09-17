@@ -14,6 +14,8 @@
   `docs/development.md` for setup.
 - Treat `keystore.properties` (gitignored, see `keystore.properties.example`)
   as a secret. Never print its contents or commit a real one.
+- Treat `EMOTION_TRACKER_KEYSTORE_*`, `EMOTION_TRACKER_KEY_*`, `FDROID_*`,
+  Play service account JSON and release tokens as secrets too.
 
 ## Repository Shape
 
@@ -54,6 +56,18 @@ that `id`, not a path, so restructuring the tree is safe. See `DECISIONS.md`
   Don't introduce Hilt/Koin without discussing it first.
 
 ## Validation
+
+Release conventions match the sibling Soundboard app. `version.txt` drives
+literal Gradle versions and Fastlane release notes via `scripts/sync-version.sh`.
+Keep the literals parseable by F-Droid; do not replace them with expressions.
+Store text belongs in `fastlane/metadata/android/`. Privacy text belongs in
+`app/src/main/res/raw/privacy_policy.txt`; `scripts/sync-privacy.sh` renders its
+public HTML. See `docs/deployment.md` for publishing gates and setup.
+
+For release infrastructure changes also run `scripts/test-release.sh`,
+`scripts/sync-version.sh --check`, `scripts/sync-privacy.sh --check`, and
+`shellcheck scripts/*.sh`. Do not promote Play releases to production or submit
+to f-droid.org without the maintainer requesting that publication.
 
 Before calling work complete, run the narrowest relevant checks:
 

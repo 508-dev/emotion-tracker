@@ -27,3 +27,6 @@ build/
 keystore.properties
 *.jks
 *.keystore
+*.p12
+/dist/
+/play-service-account*.json

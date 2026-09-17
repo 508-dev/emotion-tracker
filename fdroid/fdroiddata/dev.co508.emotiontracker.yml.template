@@ -1,0 +1,30 @@
+Categories:
+  - Sports & Health
+License: GPL-3.0-only
+AuthorName: 508.dev
+AuthorEmail: caleb@508.dev
+AuthorWebSite: https://508.dev
+SourceCode: https://github.com/508-dev/emotion-tracker
+IssueTracker: https://github.com/508-dev/emotion-tracker/issues
+Changelog: https://github.com/508-dev/emotion-tracker/blob/HEAD/CHANGELOG.md
+
+AutoName: Emotion Tracker
+
+RepoType: git
+Repo: https://github.com/508-dev/emotion-tracker.git
+Binaries: https://github.com/508-dev/emotion-tracker/releases/download/v%v/emotion-tracker-%v.apk
+
+Builds:
+  - versionName: @VERSION@
+    versionCode: @CODE@
+    commit: @COMMIT@
+    subdir: app
+    gradle:
+      - yes
+
+AllowedAPKSigningKeys: @FINGERPRINT@
+
+AutoUpdateMode: Version
+UpdateCheckMode: Tags ^v[0-9]+\.[0-9]+\.[0-9]+$
+CurrentVersion: @VERSION@
+CurrentVersionCode: @CODE@

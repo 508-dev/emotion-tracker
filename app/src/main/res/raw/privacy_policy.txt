@@ -1,0 +1,19 @@
+Emotion Tracker — Privacy Policy
+Last updated: 17 September 2026
+
+Emotion Tracker is provided by 508.dev LLC. Contact: caleb@508.dev.
+
+Your entries
+The app stores the emotions, timestamps, notes, and reminder settings you enter in its local database. It uses them to display your journal, charts, and reminders. No account is required. The app does not request internet access, send data to 508.dev, or include advertising, analytics, or tracking SDKs.
+
+Backups and exports
+Android may back up or transfer app data according to your device and backup-provider settings. These services are controlled by your device and provider, not by 508.dev. When you export a CSV, you choose the destination in Android's file picker. A cloud storage provider you choose may upload that file under its own policy. Imported CSV entries are added to the local database.
+
+Permissions
+Notification permission displays reminders you enable. Alarm access schedules reminders at your chosen times; without it reminders may be delayed. Boot access restores reminder schedules after restarting the device. File access uses Android's picker for files you explicitly select.
+
+Retention and deletion
+Entries remain until you delete them or remove the app's data. Settings → Delete all entries deletes journal entries and notes. Remove reminders in Reminders. Clearing the app's storage or uninstalling removes local app data; existing exported files and provider-managed backups must be deleted separately through their respective locations or services.
+
+Changes
+This policy will be updated if the app's data practices change. This version is available offline in Settings → Privacy policy.

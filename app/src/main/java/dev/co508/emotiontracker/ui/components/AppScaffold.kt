@@ -1,6 +1,7 @@
 package dev.co508.emotiontracker.ui.components
 
 import androidx.compose.foundation.layout.padding
+import android.content.ActivityNotFoundException
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DrawerValue
@@ -22,12 +23,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.clickable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import android.content.Intent
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.core.net.toUri
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dev.co508.emotiontracker.R
@@ -144,3 +150,29 @@ fun AppScaffold(
         }
     }
 }
+
+/**
+ * Returns a function that opens a URL in the user's browser.
+ *
+ * No-ops when the device has nothing that can handle the intent, rather than
+ * crashing — a stripped-down or work-profiled device may genuinely have no
+ * browser.
+ */
+@Composable
+fun rememberUrlOpener(): (String) -> Unit {
+    val context = LocalContext.current
+    return remember(context) {
+        { url ->
+            try {
+                context.startActivity(
+                    Intent(Intent.ACTION_VIEW, url.toUri()).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
+                )
+            } catch (_: ActivityNotFoundException) {
+                // Nothing installed to open links; silently ignore.
+            }
+        }
+    }
+}
+
+/** Makes a `ListItem` behave like a full-width row button. */
+fun Modifier.clickableItem(onClick: () -> Unit): Modifier = fillMaxWidth().clickable(onClick = onClick)

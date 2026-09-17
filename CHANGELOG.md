@@ -1,0 +1,10 @@
+# Changelog
+
+## 0.1.0
+
+### Features
+
+* Record feelings with the emotion wheel and add a quick note.
+* Browse your journal and explore emotion paths in a Sankey chart.
+* Set daily reminders and export or restore entries with CSV.
+* Store entries locally without accounts, ads, or analytics.

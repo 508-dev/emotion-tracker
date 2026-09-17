@@ -21,6 +21,15 @@ CI. Use whichever is convenient.
 
 ## Pull Requests
 
+Use Conventional Commit titles, e.g. `feat: add a chart` or
+`fix(journal): preserve notes`. Squash commit titles drive release-please.
+Its release PRs update `version.txt` and the changelog; run
+`./scripts/sync-version.sh` if deliberately adjusting a release version.
+CI checks derived Gradle versions and store release notes for drift.
+
+The offline privacy policy source is `app/src/main/res/raw/privacy_policy.txt`.
+After changing it, run `./scripts/sync-privacy.sh` to update the hosted HTML.
+
 Use the PR template. Include what changed, why, and how it was validated.
 
 Avoid committing local state such as build outputs, `local.properties`,
