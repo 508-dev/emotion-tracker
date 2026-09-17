@@ -6,6 +6,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import dev.co508.emotiontracker.ui.charts.ChartsScreen
+import dev.co508.emotiontracker.ui.charts.EmotionFlowScreen
 import dev.co508.emotiontracker.ui.journal.JournalScreen
 import dev.co508.emotiontracker.ui.reminders.RemindersScreen
 import dev.co508.emotiontracker.ui.settings.SettingsScreen
@@ -28,6 +30,14 @@ fun AppNavHost(
             )
         }
         composable(Destination.Journal.route) { JournalScreen(modifier = Modifier.fillMaxSize()) }
+        composable(Destination.Charts.route) {
+            ChartsScreen(
+                onOpenEmotionFlow = { navController.navigate("charts/emotion-flow") { launchSingleTop = true } },
+            )
+        }
+        composable("charts/emotion-flow") {
+            EmotionFlowScreen(onBack = { navController.popBackStack() })
+        }
         composable(Destination.Reminders.route) { RemindersScreen(modifier = Modifier.fillMaxSize()) }
         composable(Destination.Settings.route) { SettingsScreen(modifier = Modifier.fillMaxSize()) }
     }

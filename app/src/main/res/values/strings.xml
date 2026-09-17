@@ -6,6 +6,19 @@
     <string name="nav_menu_content_description">Open menu</string>
     <string name="nav_wheel">Emotion wheel</string>
     <string name="nav_journal">Journal</string>
+    <string name="nav_charts">Charts</string>
+    <string name="chart_emotion_flow">Emotion flow</string>
+    <string name="chart_emotion_flow_summary">A Sankey chart of the paths to your recorded emotions.</string>
+    <string name="chart_back">Back to charts</string>
+    <string name="chart_loading">Loading chart…</string>
+    <string name="chart_empty">Record an emotion to see your paths through the wheel.</string>
+    <string name="chart_explanation">All time. Wider bands mean more entries. Paths end at the emotion you saved, even when you stopped before the last split.</string>
+    <string name="chart_scroll_hint">Drag in any direction to explore. Tap a label for details.</string>
+    <string name="chart_entry_count">Recorded entries: %1$d</string>
+    <string name="chart_unmapped">Entries not shown: %1$d. These emotions are no longer in the wheel.</string>
+    <string name="chart_node_label">%1$s · %2$d</string>
+    <string name="chart_node_details">Entries through this emotion: %1$d\nSaved at this emotion: %2$d</string>
+    <string name="chart_close">Close</string>
     <string name="nav_reminders">Reminders</string>
     <string name="nav_settings">Settings</string>
 

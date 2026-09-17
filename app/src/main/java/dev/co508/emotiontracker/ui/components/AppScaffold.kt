@@ -80,7 +80,9 @@ fun AppScaffold(
                     NavigationDrawerItem(
                         icon = { Icon(destination.icon, contentDescription = null) },
                         label = { Text(stringResource(destination.labelRes)) },
-                        selected = currentRoute == destination.route,
+                        selected =
+                            currentRoute == destination.route ||
+                                currentRoute?.startsWith("${destination.route}/") == true,
                         onClick = {
                             scope.launch { drawerState.close() }
                             // Screens can also be reached outside the drawer
