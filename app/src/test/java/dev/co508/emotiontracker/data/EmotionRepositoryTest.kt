@@ -12,7 +12,7 @@ import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
-private val testTree =
+internal val testTree =
     EmotionTree(
         version = 1,
         root =
@@ -28,7 +28,7 @@ private val testTree =
     )
 
 /** In-memory stand-in for [EmotionEntryDao] — no Room/Android context required. */
-private class FakeEmotionEntryDao : EmotionEntryDao {
+internal class FakeEmotionEntryDao : EmotionEntryDao {
     private val state = MutableStateFlow<List<EmotionEntryEntity>>(emptyList())
     private var nextId = 1L
 
@@ -74,11 +74,12 @@ class EmotionRepositoryTest {
     fun `recordEmotion surfaces as a journal entry resolved against the tree`() =
         runTest {
             val repository = EmotionRepository(testTree, FakeEmotionEntryDao())
-            repository.recordEmotion("positive", atEpochMillis = 1_000L)
+            val entryId = repository.recordEmotion("positive", atEpochMillis = 1_000L)
 
             val entries = repository.observeJournal().first()
 
             assertEquals(1, entries.size)
+            assertEquals(entryId, entries[0].id)
             assertEquals("positive", entries[0].emotionId)
             assertEquals("Positive", entries[0].emotion?.label)
             assertEquals(1_000L, entries[0].recordedAtEpochMillis)

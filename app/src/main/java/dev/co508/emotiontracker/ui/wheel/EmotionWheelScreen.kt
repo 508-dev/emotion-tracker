@@ -1,6 +1,5 @@
 package dev.co508.emotiontracker.ui.wheel
 
-import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,14 +14,22 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
@@ -30,6 +37,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.co508.emotiontracker.R
 import dev.co508.emotiontracker.data.EmotionNode
+import dev.co508.emotiontracker.ui.components.NoteEditorDialog
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun EmotionWheelScreen(
@@ -39,64 +48,90 @@ fun EmotionWheelScreen(
 ) {
     val path by viewModel.path.collectAsState()
     val root = path.first()
-    val context = LocalContext.current
+    val resources = LocalResources.current
+    val snackbarHostState = remember { SnackbarHostState() }
+    var noteEntryId by rememberSaveable { mutableStateOf<Long?>(null) }
 
-    LaunchedEffect(viewModel) {
-        viewModel.savedEmotionLabel.collect { label ->
-            Toast.makeText(context, context.getString(R.string.wheel_saved_toast, label), Toast.LENGTH_SHORT).show()
+    LaunchedEffect(viewModel, resources) {
+        viewModel.savedEmotions.collectLatest { saved ->
+            val result =
+                snackbarHostState.showSnackbar(
+                    message = resources.getString(R.string.wheel_saved_message, saved.label),
+                    actionLabel = resources.getString(R.string.journal_add_note),
+                    withDismissAction = true,
+                    duration = SnackbarDuration.Long,
+                )
+            if (result == SnackbarResult.ActionPerformed) noteEntryId = saved.entryId
         }
     }
 
-    Column(modifier = modifier.fillMaxSize()) {
-        Box(modifier = Modifier.fillMaxWidth().height(56.dp).padding(horizontal = 4.dp)) {
-            if (path.size > 1) {
-                IconButton(onClick = viewModel::back) {
-                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.wheel_back))
+    noteEntryId?.let { entryId ->
+        NoteEditorDialog(
+            entryId = entryId,
+            onDismiss = { noteEntryId = null },
+            onSave = { note ->
+                viewModel.updateNote(entryId, note)
+                noteEntryId = null
+            },
+        )
+    }
+
+    Box(modifier = modifier.fillMaxSize()) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            Box(modifier = Modifier.fillMaxWidth().height(56.dp).padding(horizontal = 4.dp)) {
+                if (path.size > 1) {
+                    IconButton(onClick = viewModel::back) {
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(R.string.wheel_back),
+                        )
+                    }
                 }
             }
-        }
 
-        // The prompt is the tree root's own label — fixed regardless of
-        // depth. Progress through the tree shows up as breadcrumbs below,
-        // not by replacing this text (see EmotionWheel for why: the current
-        // level's name lives in the wheel's center hub instead).
-        Text(
-            text = root.label,
-            style = MaterialTheme.typography.headlineMedium,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-        )
+            // The prompt is the tree root's own label — fixed regardless of
+            // depth. Progress through the tree shows up as breadcrumbs below,
+            // not by replacing this text (see EmotionWheel for why: the current
+            // level's name lives in the wheel's center hub instead).
+            Text(
+                text = root.label,
+                style = MaterialTheme.typography.headlineMedium,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+            )
 
-        Box(modifier = Modifier.fillMaxWidth().height(28.dp).padding(top = 8.dp, start = 16.dp, end = 16.dp)) {
-            Breadcrumbs(
-                nodes = path.drop(1),
-                modifier = Modifier.fillMaxWidth(),
+            Box(modifier = Modifier.fillMaxWidth().height(28.dp).padding(top = 8.dp, start = 16.dp, end = 16.dp)) {
+                Breadcrumbs(
+                    nodes = path.drop(1),
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
+
+            Box(
+                modifier = Modifier.weight(1f).fillMaxWidth(),
+                contentAlignment = Alignment.Center,
+            ) {
+                EmotionWheel(
+                    path = path,
+                    onSelect = viewModel::select,
+                    onSave = viewModel::save,
+                    modifier = Modifier.fillMaxWidth(0.82f),
+                )
+            }
+
+            Text(
+                text = stringResource(R.string.wheel_open_journal),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textDecoration = TextDecoration.Underline,
+                modifier =
+                    Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(top = 4.dp, bottom = 20.dp)
+                        .clickable(onClick = onOpenJournal),
             )
         }
-
-        Box(
-            modifier = Modifier.weight(1f).fillMaxWidth(),
-            contentAlignment = Alignment.Center,
-        ) {
-            EmotionWheel(
-                path = path,
-                onSelect = viewModel::select,
-                onSave = viewModel::save,
-                modifier = Modifier.fillMaxWidth(0.82f),
-            )
-        }
-
-        Text(
-            text = stringResource(R.string.wheel_open_journal),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textDecoration = TextDecoration.Underline,
-            modifier =
-                Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(top = 4.dp, bottom = 20.dp)
-                    .clickable(onClick = onOpenJournal),
-        )
+        SnackbarHost(hostState = snackbarHostState, modifier = Modifier.align(Alignment.BottomCenter))
     }
 }
 

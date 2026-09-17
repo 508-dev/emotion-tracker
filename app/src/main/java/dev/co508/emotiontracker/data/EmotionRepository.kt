@@ -39,9 +39,7 @@ class EmotionRepository(
     suspend fun recordEmotion(
         emotionId: String,
         atEpochMillis: Long = System.currentTimeMillis(),
-    ) {
-        dao.insert(EmotionEntryEntity(emotionId = emotionId, recordedAtEpochMillis = atEpochMillis))
-    }
+    ): Long = dao.insert(EmotionEntryEntity(emotionId = emotionId, recordedAtEpochMillis = atEpochMillis))
 
     suspend fun updateNote(
         entryId: Long,

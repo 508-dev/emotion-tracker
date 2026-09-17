@@ -13,11 +13,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -34,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.co508.emotiontracker.R
 import dev.co508.emotiontracker.data.JournalEntry
+import dev.co508.emotiontracker.ui.components.NoteEditorDialog
 import dev.co508.emotiontracker.ui.parsedColor
 import java.time.Instant
 import java.time.LocalDate
@@ -88,7 +86,8 @@ fun JournalScreen(
 
     noteEditorFor?.let { entry ->
         NoteEditorDialog(
-            entry = entry,
+            entryId = entry.id,
+            initialNote = entry.note,
             onDismiss = { noteEditorFor = null },
             onSave = { note ->
                 viewModel.updateNote(entry.id, note)
@@ -151,44 +150,4 @@ private fun JournalEntryRow(
             )
         }
     }
-}
-
-@Composable
-private fun NoteEditorDialog(
-    entry: JournalEntry,
-    onDismiss: () -> Unit,
-    onSave: (String?) -> Unit,
-) {
-    var text by remember(entry.id) { mutableStateOf(entry.note.orEmpty()) }
-
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = {
-            Text(
-                stringResource(
-                    if (entry.note ==
-                        null
-                    ) {
-                        R.string.journal_add_note
-                    } else {
-                        R.string.journal_edit_note
-                    },
-                ),
-            )
-        },
-        text = {
-            OutlinedTextField(
-                value = text,
-                onValueChange = { text = it },
-                placeholder = { Text(stringResource(R.string.journal_note_hint)) },
-                modifier = Modifier.fillMaxWidth(),
-            )
-        },
-        confirmButton = {
-            TextButton(onClick = { onSave(text) }) { Text(stringResource(R.string.journal_note_save)) }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) { Text(stringResource(R.string.journal_note_cancel)) }
-        },
-    )
 }

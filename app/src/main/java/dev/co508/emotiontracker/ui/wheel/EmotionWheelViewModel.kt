@@ -15,6 +15,11 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+data class SavedEmotion(
+    val entryId: Long,
+    val label: String,
+)
+
 class EmotionWheelViewModel(
     private val repository: EmotionRepository,
 ) : ViewModel() {
@@ -24,10 +29,10 @@ class EmotionWheelViewModel(
     private val _path = MutableStateFlow(listOf(root))
     val path: StateFlow<List<EmotionNode>> = _path
 
-    private val savedEvents = Channel<String>(Channel.BUFFERED)
+    private val savedEvents = Channel<SavedEmotion>(Channel.CONFLATED)
 
-    /** Emits the saved emotion's label each time [save] completes, for a one-shot toast. */
-    val savedEmotionLabel: Flow<String> = savedEvents.receiveAsFlow()
+    /** Identifies the exact journal entry offered by the temporary Add note action. */
+    val savedEmotions: Flow<SavedEmotion> = savedEvents.receiveAsFlow()
 
     fun select(child: EmotionNode) {
         _path.update { it + child }
@@ -47,10 +52,17 @@ class EmotionWheelViewModel(
         val current = _path.value.last()
         if (current == root) return
         viewModelScope.launch {
-            repository.recordEmotion(current.id)
-            savedEvents.send(current.label)
+            val entryId = repository.recordEmotion(current.id)
             _path.value = listOf(root)
+            savedEvents.send(SavedEmotion(entryId, current.label))
         }
+    }
+
+    fun updateNote(
+        entryId: Long,
+        note: String?,
+    ) {
+        viewModelScope.launch { repository.updateNote(entryId, note) }
     }
 
     companion object {
