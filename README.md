@@ -1,8 +1,6 @@
 # Emotion Tracker
 
 ![Screenshot of main app screen](fastlane/metadata/android/en-US/images/phoneScreenshots/depth1.png)
-![Screenshot of main app screen, depth 2](fastlane/metadata/android/en-US/images/phoneScreenshots/depth2.png)
-![Screenshot of a sankey chart](fastlane/metadata/android/en-US/images/phoneScreenshots/sankey.png)
 
 A free, offline-first Android app for recording how you feel, as fast as
 possible, against a timeline. See [`SPEC.md`](SPEC.md) for the full product spec
@@ -98,6 +96,10 @@ see `EmotionRepository.resolve`.
 `app/src/test/.../EmotionTreeTest.kt` parses this exact file on every test run
 and fails the build if an edit breaks it (duplicate ids, blank labels, bad hex
 colors).
+
+We also have charts:
+
+![Screenshot of a sankey chart](fastlane/metadata/android/en-US/images/phoneScreenshots/sankey.png)
 
 ## Read Next
 
