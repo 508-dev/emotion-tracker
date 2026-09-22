@@ -27,13 +27,17 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.geometry.center
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Outline
+import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
@@ -54,12 +58,30 @@ import kotlin.math.roundToInt
 import kotlin.math.sin
 import androidx.compose.ui.unit.min as minDp
 
-// The palette (see emotion_tree.json) is deliberately soft/pastel, so a
-// fixed dark, matte label color reads better across all of it than white
-// (which the old, more saturated palette needed).
-private val LabelColor = Color(0xFF3A3733)
+// With the soft-depth/glow treatment, wedges sit over a dark background at
+// well under full opacity, so white reads better than the old dark/matte
+// label color (which assumed a fully opaque, light pastel fill).
+private val LabelColor = Color(0xFFF5F3F0)
 
 private const val WIPE_DURATION_MS = 360
+
+/**
+ * How far past the wheel's own radius the outer glow reaches (as a
+ * multiple of radiusPx). The Canvas reserves exactly this much margin (see
+ * the radiusPx calculation in [EmotionWheel]) so the glow fully fades out
+ * before hitting the Canvas edge — past which drawing is clipped — instead
+ * of being cut off in a visible square. EmotionWheelScreen sizes the
+ * wheel's incoming modifier generously enough that reserving this margin
+ * doesn't noticeably shrink the interactive wheel itself.
+ */
+private const val GLOW_MARGIN_FACTOR = 1.35f
+
+/**
+ * Alpha a wedge's fill reaches at its own outer (rim) edge. Also the outer
+ * glow's starting alpha at that same radius, so the fill hands off to the
+ * glow at a matching brightness instead of visibly stepping down.
+ */
+private const val WEDGE_RIM_ALPHA = 0.85f
 
 /** A tappable region of the wheel: the center "save" hub, or one of the current level's wedges. */
 private sealed interface Zone {
@@ -142,11 +164,16 @@ fun EmotionWheel(
 
     BoxWithConstraints(modifier = modifier.aspectRatio(1f)) {
         val density = LocalDensity.current
-        val sizePx = with(density) { minDp(maxWidth, maxHeight).toPx() }
-        val radiusPx = sizePx / 2f
+        val canvasSizePx = with(density) { minDp(maxWidth, maxHeight).toPx() }
+        val canvasCenterPx = canvasSizePx / 2f
+        // The Canvas draws nothing beyond its own layout bounds, so the wheel
+        // itself is sized a bit smaller than the full canvas — leaving a
+        // margin all the way around for the outer glow to fade out in,
+        // instead of getting clipped square at the canvas edge.
+        val radiusPx = canvasCenterPx / GLOW_MARGIN_FACTOR
         val geometry =
             WheelGeometry(
-                center = Offset(radiusPx, radiusPx),
+                center = Offset(canvasCenterPx, canvasCenterPx),
                 radiusPx = radiusPx,
                 hubRadiusPx = radiusPx * 0.32f,
                 ringInnerRadiusPx = radiusPx * 0.32f + radiusPx * 0.03f,
@@ -286,6 +313,18 @@ private fun WheelLevel(
 
     Box(modifier = modifier) {
         Canvas(modifier = Modifier.fillMaxSize()) {
+            // Draw outer glow for each wedge, using its emotion color
+            children.forEachIndexed { i, child ->
+                val startAngle = -90f + i * wedgeAngle
+                drawWedgeGlow(
+                    color = child.parsedColor,
+                    startAngle = startAngle,
+                    wedgeAngle = wedgeAngle,
+                    center = center,
+                    wheelRadius = radiusPx,
+                )
+            }
+
             // A soft halo bridging the hub and the ring, so the boundary
             // between them reads as a gradient rather than a hard seam.
             if (!isLeafSave) {
@@ -312,9 +351,17 @@ private fun WheelLevel(
                 val wedgePressT = if (pressedZone == Zone.Wedge(i)) pressProgress.value else 0f
                 val outerRadius = radiusPx * (1f - 0.05f * wedgePressT)
                 val startAngle = -90f + i * wedgeAngle
-                drawPath(
-                    path = annularWedgePath(center, ringInnerRadiusPx, outerRadius, startAngle, wedgeAngle),
+                val wedgePath = annularWedgePath(center, ringInnerRadiusPx, outerRadius, startAngle, wedgeAngle)
+
+                // Draw wedge with soft glowing edges using depth/glow pass
+                drawWedgeWithGlowingEdges(
+                    path = wedgePath,
                     color = child.parsedColor,
+                    startAngle = startAngle,
+                    wedgeAngle = wedgeAngle,
+                    innerRadius = ringInnerRadiusPx,
+                    outerRadius = outerRadius,
+                    center = center,
                 )
             }
             if (children.size > 1) {
@@ -340,8 +387,8 @@ private fun WheelLevel(
             val midAngleDeg = -90f + (i + 0.5f) * wedgeAngle
             val midAngleRad = Math.toRadians(midAngleDeg.toDouble())
             val labelRadiusPx = (ringInnerRadiusPx + radiusPx) / 2f
-            val xPx = radiusPx + labelRadiusPx * cos(midAngleRad).toFloat()
-            val yPx = radiusPx + labelRadiusPx * sin(midAngleRad).toFloat()
+            val xPx = center.x + labelRadiusPx * cos(midAngleRad).toFloat()
+            val yPx = center.y + labelRadiusPx * sin(midAngleRad).toFloat()
             val offsetX = with(density) { (xPx - labelWidthPx / 2f).toDp() }
             val offsetY = with(density) { (yPx - 10.dp.toPx()).toDp() }
 
@@ -470,4 +517,216 @@ private fun DrawScope.drawWipeEdges(
     val oldCenterAngleDeg = hingeAngleDeg + 180f
     drawSoftDivider(geometry.center, 0f, geometry.radiusPx, oldCenterAngleDeg - halfWidthDeg)
     drawSoftDivider(geometry.center, 0f, geometry.radiusPx, oldCenterAngleDeg + halfWidthDeg)
+}
+
+/**
+ * Draws the outer glow for a wedge, using the wedge's color, as a true radial
+ * gradient (not stacked flat-alpha shapes) so it fades continuously from the
+ * wheel edge out to nothing, with no visible banding. Also eased angularly
+ * (same per-wedge quadratic falloff as the fill) so neighboring glows blend
+ * into each other instead of meeting at a hard color seam.
+ */
+private fun DrawScope.drawWedgeGlow(
+    color: Color,
+    startAngle: Float,
+    wedgeAngle: Float,
+    center: Offset,
+    wheelRadius: Float,
+) {
+    val glowOuterRadius = wheelRadius * GLOW_MARGIN_FACTOR
+    // Starts exactly at the wheel's own edge (not inset into it, which would
+    // both double-draw over the fill and, worse, start the glow's decay from
+    // a lower alpha than the fill's rim — the visible "step down" this
+    // replaced). The innermost stop below matches WEDGE_RIM_ALPHA exactly so
+    // the fill hands off to the glow at the same brightness it ends at.
+    val glowInnerRadius = wheelRadius
+    val glowPath = annularWedgePath(center, glowInnerRadius, glowOuterRadius, startAngle, wedgeAngle)
+    val innerFrac = glowInnerRadius / glowOuterRadius
+
+    drawIntoCanvas { canvas ->
+        canvas.saveLayer(Rect(Offset.Zero, size), Paint())
+        drawPath(
+            path = glowPath,
+            brush =
+                Brush.radialGradient(
+                    // Many stops, front-loaded near the wheel edge, so the falloff
+                    // reads as an exponential glow rather than a linear fade.
+                    colorStops =
+                        arrayOf(
+                            innerFrac to color.copy(alpha = WEDGE_RIM_ALPHA),
+                            (innerFrac + (1f - innerFrac) * 0.25f) to color.copy(alpha = 0.42f),
+                            (innerFrac + (1f - innerFrac) * 0.5f) to color.copy(alpha = 0.2f),
+                            (innerFrac + (1f - innerFrac) * 0.75f) to color.copy(alpha = 0.08f),
+                            1f to Color.Transparent,
+                        ),
+                    center = center,
+                    radius = glowOuterRadius,
+                ),
+        )
+        drawAngularEasedMask(
+            path = angularMaskPath(startAngle, wedgeAngle, glowInnerRadius, glowOuterRadius, center),
+            startAngle = startAngle,
+            wedgeAngle = wedgeAngle,
+            center = center,
+            lowAlpha = 0.6f,
+            highAlpha = 1f,
+        )
+        canvas.restore()
+    }
+}
+
+/**
+ * Eases from [low] to [high] as [x] goes 0→1 along an x² curve: flat (near
+ * [low]) through most of the range, with essentially all the change packed
+ * into the last stretch before x=1. Used so a wedge's fill barely moves
+ * through its interior and only brightens right at the true boundary.
+ */
+private fun easeQuadratic(
+    low: Float,
+    high: Float,
+    x: Float,
+) = low + (high - low) * x * x
+
+/**
+ * Alpha as a function of radius alone: dips to [lowAlpha] at the wedge's
+ * radial midpoint and rises via [easeQuadratic] to [highAlpha] at both the
+ * inner and outer radius. Sampled densely so the piecewise-linear gradient
+ * stops read as a smooth curve rather than the crude 3-stop "V" this
+ * replaced (which had a harsh, constant-rate linear transition throughout).
+ */
+private fun radialAlphaStops(
+    innerRadius: Float,
+    outerRadius: Float,
+    lowAlpha: Float,
+    highAlpha: Float,
+    steps: Int = 24,
+): List<Pair<Float, Float>> {
+    val mid = (innerRadius + outerRadius) / 2f
+    val halfSpan = (outerRadius - innerRadius) / 2f
+    return (0..steps).map { i ->
+        val r = innerRadius + (outerRadius - innerRadius) * (i / steps.toFloat())
+        val xFromMid = (kotlin.math.abs(r - mid) / halfSpan).coerceIn(0f, 1f)
+        (r / outerRadius) to easeQuadratic(lowAlpha, highAlpha, xFromMid)
+    }
+}
+
+/**
+ * Alpha as a function of angle alone, built in a *canonical* frame centered
+ * on 180° rather than the wedge's true position. A [Brush.sweepGradient]
+ * always starts its 0↔1 seam at 0° (3 o'clock); a wedge whose true span
+ * straddles that direction would need offsets that wrap past 1.0, which
+ * sweepGradient can't represent. Centering every wedge's stops at 180°
+ * instead keeps them safely away from the seam (as long as wedgeAngleDeg
+ * < 360°) — [drawAngularEasedWedge] then rotates the canvas so this
+ * canonical gradient lands on the wedge's real position.
+ */
+private fun canonicalAngularAlphaStops(
+    wedgeAngleDeg: Float,
+    lowAlpha: Float,
+    highAlpha: Float,
+    steps: Int = 16,
+): List<Pair<Float, Float>> {
+    val startDeg = 180f - wedgeAngleDeg / 2f
+    return (0..steps).map { i ->
+        val u = i / steps.toFloat() // 0..1 across this wedge only
+        val xFromMid = (kotlin.math.abs(u - 0.5f) * 2f).coerceIn(0f, 1f)
+        ((startDeg + wedgeAngleDeg * u) / 360f) to easeQuadratic(highAlpha, lowAlpha, xFromMid)
+    }
+}
+
+/**
+ * Multiplies [color]'s alpha across [path] by a per-wedge angular falloff —
+ * bright at the wedge's own angular center, soft where it meets its
+ * neighbors — via a sweepGradient built in the seam-safe canonical frame
+ * (see [canonicalAngularAlphaStops]) and rotated onto the wedge's true
+ * position. Must be called with an isolated layer already active (e.g.
+ * inside [drawIntoCanvas]'s `saveLayer`), since DstIn otherwise multiplies
+ * against whatever the canvas already holds beneath it.
+ */
+private fun DrawScope.drawAngularEasedMask(
+    path: Path,
+    startAngle: Float,
+    wedgeAngle: Float,
+    center: Offset,
+    lowAlpha: Float,
+    highAlpha: Float,
+) {
+    val trueMid = startAngle + wedgeAngle / 2f
+    val rotationDeg = trueMid - 180f
+    val angularStops =
+        canonicalAngularAlphaStops(wedgeAngle, lowAlpha, highAlpha)
+            .map { (frac, alpha) -> frac to Color.White.copy(alpha = alpha) }
+            .toTypedArray()
+    rotate(degrees = rotationDeg, pivot = center) {
+        drawPath(
+            // Pre-rotated by -rotationDeg so it lands back on the wedge's
+            // true position once the rotate() above is applied.
+            path = path,
+            brush = Brush.sweepGradient(colorStops = angularStops, center = center),
+            blendMode = BlendMode.DstIn,
+        )
+    }
+}
+
+/**
+ * Draws a wedge whose alpha is the product of two independent, per-wedge
+ * quadratic-eased falloffs — one over radius (soft in the middle, bright at
+ * the inner/outer edges) and one over angle (bright at the wedge's own
+ * center, soft where it meets its neighbors). The two are combined by
+ * rendering the radial gradient first, then multiplying in the angular one
+ * via a DstIn blend inside an isolated layer, so neighboring wedges never
+ * bleed into each other's math.
+ */
+private fun DrawScope.drawWedgeWithGlowingEdges(
+    path: Path,
+    color: Color,
+    startAngle: Float,
+    wedgeAngle: Float,
+    innerRadius: Float,
+    outerRadius: Float,
+    center: Offset,
+) {
+    val radialStops =
+        radialAlphaStops(innerRadius, outerRadius, lowAlpha = 0.48f, highAlpha = WEDGE_RIM_ALPHA)
+            .map { (frac, alpha) -> frac to color.copy(alpha = alpha) }
+            .toTypedArray()
+
+    drawIntoCanvas { canvas ->
+        canvas.saveLayer(Rect(Offset.Zero, size), Paint())
+        drawPath(
+            path = path,
+            brush = Brush.radialGradient(colorStops = radialStops, center = center, radius = outerRadius),
+        )
+        // The mask must be built for the wedge's true angular position, not
+        // the canonical (rotated) one, since rotate() rotates this whole
+        // path draw — so pass a path already re-expressed in the rotated
+        // frame the same way angularAlphaMaskPath below expects.
+        drawAngularEasedMask(
+            path = angularMaskPath(startAngle, wedgeAngle, innerRadius, outerRadius, center),
+            startAngle = startAngle,
+            wedgeAngle = wedgeAngle,
+            center = center,
+            lowAlpha = 0.58f,
+            highAlpha = 1f,
+        )
+        canvas.restore()
+    }
+}
+
+/**
+ * The same annular wedge shape as [annularWedgePath], but expressed in the
+ * rotated frame [drawAngularEasedMask] draws in: shifted by -(trueMid -
+ * 180°) so that after that rotation is applied, it lands back on the
+ * wedge's true position.
+ */
+private fun angularMaskPath(
+    startAngle: Float,
+    wedgeAngle: Float,
+    innerRadius: Float,
+    outerRadius: Float,
+    center: Offset,
+): Path {
+    val trueMid = startAngle + wedgeAngle / 2f
+    val rotationDeg = trueMid - 180f
+    return annularWedgePath(center, innerRadius, outerRadius, startAngle - rotationDeg, wedgeAngle)
 }

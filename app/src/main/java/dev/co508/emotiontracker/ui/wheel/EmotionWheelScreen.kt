@@ -115,7 +115,12 @@ fun EmotionWheelScreen(
                     path = path,
                     onSelect = viewModel::select,
                     onSave = viewModel::save,
-                    modifier = Modifier.fillMaxWidth(0.82f),
+                    // Wider than the wheel visually needs to be: EmotionWheel
+                    // reserves its own margin inside this box for the outer
+                    // glow (see GLOW_MARGIN_FACTOR), so the box has to be
+                    // generous or that margin eats into the interactive
+                    // wheel's own size instead.
+                    modifier = Modifier.fillMaxWidth(0.94f),
                 )
             }
 
