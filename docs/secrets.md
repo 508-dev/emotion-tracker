@@ -18,11 +18,33 @@ Create a new app key only if one has not already been used for this application:
 ```bash
 keytool -genkeypair -v -keystore release.keystore -alias emotion-tracker \
   -keyalg RSA -keysize 2048 -validity 10000
+base64 -w0 release.keystore
 ```
 
 Keep the key and passwords in durable secure storage outside git. Supply Base64
 to GitHub through a private channel, not a captured terminal/chat transcript.
 Do not reuse Soundboard's private key. Debug builds use Android's debug key.
+
+Store these in `pass` under `508/android/emotiontracker/`, one entry per
+secret, **named exactly as the secret appears in GitHub** (not a shorthand —
+`pass show 508/android/emotiontracker/<SECRET_NAME>` should always work):
+
+```bash
+pass insert 508/android/emotiontracker/RELEASE_KEYSTORE_BASE64    # the base64 -w0 output above
+pass insert 508/android/emotiontracker/RELEASE_KEYSTORE_PASSWORD
+pass insert 508/android/emotiontracker/RELEASE_KEY_ALIAS           # emotion-tracker, the -alias value above
+pass insert 508/android/emotiontracker/RELEASE_KEY_PASSWORD        # same value as RELEASE_KEYSTORE_PASSWORD — PKCS12 has no separate key password
+pass insert 508/android/emotiontracker/RELEASE_PLEASE_TOKEN
+```
+
+(The existing `508/android/emotiontracker/keypass` /
+`keystorebase64` / `keystorepassword` / `releasekeyalias` entries predate
+this convention — migrate their values into the renamed entries above rather
+than adding to the mismatch.)
+
+For `RELEASE_PLEASE_TOKEN`: create a **fine-grained personal access token**
+scoped to this repository only, with exactly **Contents: Read and write** and
+**Pull requests: Read and write**.
 
 For local release builds, copy `keystore.properties.example` to the gitignored
 `keystore.properties` and fill it privately. CI maps GitHub secrets to:
