@@ -25,6 +25,11 @@ prove F-Droid reproducibility. If using F-Droid's own signing instead, remove
 `Binaries` and `AllowedAPKSigningKeys` deliberately and document that those
 installs cannot update developer-signed installs in place.
 
+`UpdateCheckMode: Tags ^v[0-9]+\.[0-9]+\.[0-9]+$` makes F-Droid watch only
+stable `vX.Y.Z` tags. release-please is configured without a component prefix,
+so this matches every tag it creates while excluding per-branch `beta-*`
+pre-release tags.
+
 Store descriptions and screenshots are read from `fastlane/metadata/android/`.
 This official submission is separate from `fdroid/metadata/`, which describes
 the optional self-hosted binary repository.

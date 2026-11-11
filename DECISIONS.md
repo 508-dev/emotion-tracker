@@ -149,6 +149,32 @@ Deviate when: day-of-week exclusion gets scoped — the table only stores
 hour/minute today, so adding a `daysOfWeek` column later is a schema v3
 migration, not a redesign.
 
+## Per-Branch Betas Have Their Own Identity And Key
+
+A beta from an arbitrary feature branch must install beside the shipping app,
+not replace it. The `beta` build type therefore adds the `.beta` application ID
+suffix and overrides the app name and launcher background. It otherwise
+inherits the release configuration, including R8 and resource shrinking, so a
+beta exercises the same build shape as production.
+
+Betas also have their own signing key. A workflow that runs for arbitrary
+branches must never have the release key, so the beta secrets are repository
+secrets and the release key stays in the untouched `Prod` environment. Losing
+the beta key only means beta users uninstall and reinstall; it cannot strand
+production installs. Local beta builds fall back to the debug key when no beta
+credentials are present.
+
+Every published beta gets a new `beta-<branch>-<run>` tag because Obtainium
+needs a new release to notice an update. The workflow's `run_number` becomes
+the beta `versionCode`: it increases across branches, unlike a number derived
+from a branch or commit, so each new APK can install over the last one. This is
+an output-level override only; the generated production literals in
+`defaultConfig` remain unchanged for F-Droid.
+
+The f-droid.org metadata restricts `UpdateCheckMode` to tags matching
+`^v[0-9]+\.[0-9]+\.[0-9]+$`. Without that pattern its bot would also consider
+`beta-*` tags and could try to build a feature branch as a stable release.
+
 ## Deferred: Instrumented (`androidTest`) Coverage
 
 Decision: MVP ships with JVM unit tests only (`app/src/test/`) covering the

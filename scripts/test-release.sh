@@ -64,6 +64,7 @@ fingerprint=$(printf '%064d' 0)
 metadata=$("$fixture/scripts/prepare-fdroid.sh" v1.2.3 "$fingerprint")
 [[ $metadata == *"commit: $(git -C "$fixture" rev-parse HEAD)"* ]]
 [[ $metadata == *'versionCode: 1002003'* ]]
+[[ $metadata == *'UpdateCheckMode: Tags ^v[0-9]+\.[0-9]+\.[0-9]+$'* ]]
 git -C "$fixture" tag v1.2.4
 if "$fixture/scripts/prepare-fdroid.sh" v1.2.4 "$fingerprint" > /dev/null 2>&1; then
     echo 'Accepted a tag that disagrees with the app version' >&2; exit 1

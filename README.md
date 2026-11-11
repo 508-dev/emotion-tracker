@@ -22,7 +22,9 @@ triple-confirmed "delete all entries."
 
 Release builds target F-Droid and Google Play. See [release setup](docs/deployment.md)
 for automated versioning, APK/AAB artifacts, signing, and the remaining store
-setup. Listing text lives in `fastlane/metadata/android/`.
+setup. Non-main branches publish separately signed Emotion Tracker Beta
+pre-releases; see [beta builds](docs/beta-builds.md). Listing text lives in
+`fastlane/metadata/android/`.
 
 The app has no backend, no network permission, and no analytics. Everything
 lives in a local Room (SQLite) database on the device.

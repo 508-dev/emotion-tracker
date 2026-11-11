@@ -19,8 +19,16 @@ Root `.github/` files are meant to be safe defaults for most repositories:
 - `.github/workflows/release.yml`: release PRs and tagged builds, signed GitHub
   APKs when configured, optional Play internal drafts and self-hosted F-Droid.
   Both jobs use the Prod environment. See `deployment.md` and `secrets.md`.
+- `.github/workflows/beta.yml`: publishes separately signed Emotion Tracker
+  Beta pre-releases for non-main branches and cleans them up when a branch is
+  deleted. Without beta signing secrets it only compiles the beta APK. See
+  `beta-builds.md`.
 
 Keep these templates short. They should improve issue and PR quality without making lightweight collaboration feel bureaucratic.
+
+Only `release.yml` and `beta.yml` need write permissions or secrets. Release
+credentials are scoped to the `Prod` environment; beta uses its own key and
+repository secrets.
 
 Workflows pin third-party actions to commit SHAs and use `harden-runner` in audit mode. When applying this devkit, update pinned SHAs intentionally rather than floating back to moving tags.
 

@@ -1,8 +1,10 @@
 # Release secrets
 
-The app has no runtime API keys or backend credentials. Release automation uses
-signing material and publishing credentials, configured in GitHub **Settings →
-Environments → Prod → Environment secrets**. Never commit or print their values.
+The app has no runtime API keys or backend credentials. Production release
+automation uses signing material and publishing credentials configured in
+GitHub **Settings → Environments → Prod → Environment secrets**. Beta signing
+uses separate repository secrets so arbitrary branch builds never receive the
+production key. Never commit or print secret values.
 
 | Secret | Purpose |
 | --- | --- |
@@ -12,6 +14,10 @@ Environments → Prod → Environment secrets**. Never commit or print their val
 | `RELEASE_KEY_PASSWORD` | Key password (same as store password for PKCS12) |
 | `RELEASE_PLEASE_TOKEN` | Fine-grained repo Contents/PR write token so release PRs trigger CI |
 | `PLAY_SERVICE_ACCOUNT_JSON` | Play service account JSON with this app's testing-release access |
+| `BETA_KEYSTORE_BASE64` | Base64-encoded, separate Emotion Tracker Beta signing keystore (repository secret) |
+| `BETA_KEYSTORE_PASSWORD` | Beta keystore password (repository secret) |
+| `BETA_KEY_ALIAS` | Beta key alias, e.g. `emotion-tracker-beta` (repository secret) |
+| `BETA_KEY_PASSWORD` | Beta key password, same as store password for PKCS12 (repository secret) |
 
 Create a new app key only if one has not already been used for this application:
 
@@ -57,6 +63,13 @@ For local release builds, copy `keystore.properties.example` to the gitignored
 If any of these environment values are set, they take precedence as a complete
 set over the local file. Partial signing configuration fails with a message
 that names only the missing configuration, never a value.
+
+Beta CI maps its repository secrets to `EMOTION_TRACKER_BETA_KEYSTORE_FILE`,
+`EMOTION_TRACKER_BETA_KEYSTORE_PASSWORD`, `EMOTION_TRACKER_BETA_KEY_ALIAS`, and
+`EMOTION_TRACKER_BETA_KEY_PASSWORD`. With no beta signing configuration, local
+and CI beta builds use the debug key; publishing is skipped in CI. The beta key
+is independent of the production key, so losing it does not affect production
+installs. See [beta-builds.md](beta-builds.md).
 
 Optional self-hosted F-Droid uses the app key to sign its repository index,
 as Soundboard does. This couples repository trust and app identity: rotating
