@@ -14,8 +14,9 @@
   `docs/development.md` for setup.
 - Treat `keystore.properties` (gitignored, see `keystore.properties.example`)
   as a secret. Never print its contents or commit a real one.
-- Treat `EMOTION_TRACKER_KEYSTORE_*`, `EMOTION_TRACKER_KEY_*`, `FDROID_*`,
-  Play service account JSON and release tokens as secrets too.
+- Treat `EMOTION_TRACKER_KEYSTORE_*`, `EMOTION_TRACKER_KEY_*`,
+  `EMOTION_TRACKER_BETA_KEYSTORE_*`, `FDROID_*`, Play service account JSON and
+  release tokens as secrets too.
 
 ## Repository Shape
 
@@ -63,6 +64,12 @@ Keep the literals parseable by F-Droid; do not replace them with expressions.
 Store text belongs in `fastlane/metadata/android/`. Privacy text belongs in
 `app/src/main/res/raw/privacy_policy.txt`; `scripts/sync-privacy.sh` renders its
 public HTML. See `docs/deployment.md` for publishing gates and setup.
+
+Non-main branches publish separate Emotion Tracker Beta pre-releases
+(`docs/beta-builds.md`). Their application ID, signing key, and version numbers
+are independent of production; never give the beta workflow access to Prod's
+release key. Keep the default version literals unchanged and override only beta
+outputs.
 
 For release infrastructure changes also run `scripts/test-release.sh`,
 `scripts/sync-version.sh --check`, `scripts/sync-privacy.sh --check`, and

@@ -10,6 +10,9 @@ this setup submits the app to f-droid.org or promotes a Play release.
 - PRs and main: version/policy drift checks, release-script tests, shellcheck,
   ktlint, unit tests, Android lint, debug APK and unsigned release APK/AAB.
   Artifacts are retained for 14 days.
+- Other branches: the Beta workflow builds Emotion Tracker Beta and, when its
+  separate signing secrets are configured, publishes a pre-release for the
+  branch. See [beta-builds.md](beta-builds.md).
 - Main: release-please opens or updates a release PR. It owns `version.txt`,
   `CHANGELOG.md`, and `.release-please-manifest.json`. The workflow commits
   derived Gradle literals and store release notes onto that PR.
@@ -127,8 +130,10 @@ Official references checked during setup:
 After a signed release exists, follow [fdroiddata instructions](../fdroid/fdroiddata/README.md).
 The renderer fills the template using a real tag's commit/version and the APK
 certificate fingerprint. Submit its output to fdroiddata only after their
-metadata checks and rebuild pass. It watches `vX.Y.Z` tags and uses the shared
-Fastlane listing. No workflow files a submission or merges it automatically.
+metadata checks and rebuild pass. `UpdateCheckMode: Tags
+^v[0-9]+\.[0-9]+\.[0-9]+$` watches only stable `vX.Y.Z` tags, excluding
+`beta-*`, and uses the shared Fastlane listing. No workflow files a submission
+or merges it automatically.
 
 Build preparation includes disabling AGP dependency-info blobs and preserving
 native-library symbols to avoid builder-dependent stripping. The Gradle daemon

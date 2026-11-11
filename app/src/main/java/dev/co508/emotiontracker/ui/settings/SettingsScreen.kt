@@ -2,20 +2,21 @@ package dev.co508.emotiontracker.ui.settings
 
 import android.net.Uri
 import android.widget.Toast
-import androidx.annotation.StringRes
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.compose.material3.Icon
-import androidx.compose.material.icons.Icons
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.automirrored.filled.OpenInNew
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.OpenInNew
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -36,9 +37,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.co508.emotiontracker.R
-import dev.co508.emotiontracker.ui.components.rememberUrlOpener
 import dev.co508.emotiontracker.ui.components.clickableItem
-import androidx.compose.material3.ListItem
+import dev.co508.emotiontracker.ui.components.rememberUrlOpener
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
@@ -200,19 +200,15 @@ fun SettingsScreen(
             modifier = Modifier.padding(top = 8.dp),
         )
 
-            LinkItem(
-                labelRes = R.string.about_link_508,
-                urlRes = R.string.about_link_508_url,
-            )
+        LinkItem(
+            labelRes = R.string.about_link_508,
+            urlRes = R.string.about_link_508_url,
+        )
 
-
-           LinkItem(
-                labelRes = R.string.about_link_repo,
-                urlRes = R.string.about_link_repo_url,
-            )
-
-
-  
+        LinkItem(
+            labelRes = R.string.about_link_repo,
+            urlRes = R.string.about_link_repo_url,
+        )
 
         TextButton(onClick = { showPrivacy = true }) {
             Text(stringResource(R.string.settings_privacy_policy))
